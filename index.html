@@ -185,10 +185,10 @@
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.Userconsole.log("authStat changed")
-        console.log("authStat changed")
+        console.log("authStat changed");
         setupUI(user);
       } else {
-        console.log("authStat changed")
+        console.log("authStat changed");
         setupUI();
       }
     });
@@ -203,7 +203,7 @@
       const fName = signupForm['signup-fName'].value;
       const lName = signupForm['signup-lName'].value;
       const phoneNumber = signupForm['signup-phoneNumber'].value;
-      console.log(email, password, fName, lName, phoneNumber)
+      console.log(email, password, fName, lName, phoneNumber);
       // sign up the user
       createUserWithEmailAndPassword(auth, email, password).then(cred => {
         console.log(cred.user);
@@ -213,7 +213,7 @@
         M.Modal.getInstance(modal).close();
         signupForm.reset();
         // sync info with db
-        const docRef = doc(db, 'users', userID)
+        const docRef = doc(db, 'users', userID);
           var signupObject = { 
             email: email,
             firstName: fName,
@@ -239,11 +239,11 @@
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential)
+        console.log(userCredential);
         document.getElementById("userUID").innerHTML = userCredential.user.uid;
         // Signed in 
         const user = userCredential.user;
-        console.log("log in successful")
+        console.log("log in successful");
         const modal = document.querySelector('#modal-login');
         M.Modal.getInstance(modal).close();
         loginForm.reset();
@@ -368,11 +368,17 @@
         memberIds: [mainUser], //TODO: Add the creator (current user's ID as the first member)
         eventsIds: [],
       };
+     
       const reunionsSnapshot = await addDoc(reunionsCollection, reunionObject);
       //Here I am updating the newly created reunion to add an 'id' field to it.
       const reunionDocRef = doc(db, "reunions", reunionsSnapshot.id);
       await updateDoc(reunionDocRef, {uid: reunionsSnapshot.id });
       console.log('reunions is added with ID: ', reunionsSnapshot.id);
+      const docRef = doc(db, 'users', mainUser);
+      const userArray = await getdoc(docRef);
+      await updateDoc(docRef, {
+        renuionsIds: userArray.push(reunionsSnapshot.id)
+      }) 
     });
 
 
