@@ -24,6 +24,9 @@
           <li class="logged-in">
             <a href="#" class="grey-text modal-trigger" data-target="modal-create">Create Reunion</a>
           </li>
+          <li class="logged-in">
+            <a href="#" class="grey-text modal-trigger" data-target="modal-view-my-reunions">View my Reunions</a>
+          </li>
           <li class="logged-out">
             <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
           </li>
@@ -41,17 +44,44 @@
       <h4>Sign Up</h4><br />
       <form id="signup-form">
         <div class="input-field">
+          <input type="fName" id="signup-fName" required />
+          <label for="signup-Fname">First Name</label>
+        </div>
+        <div class="input-field">
+          <input type="lName" id="signup-lName" required />
+          <label for="signup-lname">Last Name</label>
+        </div>     
+        <div class="input-field">
           <input type="email" id="signup-email" required />
           <label for="signup-email">Email Address</label>
         </div>
         <div class="input-field">
           <input type="password" id="signup-password" required />
           <label for="signup-password">Choose Password</label>
-        </div>
+        </div>   
+        <div class="input-field">
+          <input type="phoneNumber" id="signup-phoneNumber" required />
+          <label for="signup-phoneNumber">Phone Number</label>
+        </div> 
         <button class="btn blue darken-2 z-depth-0">Sign Up</button>
       </form>
     </div>
   </div>
+
+  <!-- VIEW MY REUNIONS MODAL -->
+  <div id="modal-view-my-reunions" class="modal">
+    <div class="modal-content">
+      <h4>View my reunions</h4><br />
+      <form id="viewMyReunionsForm">
+        <div class="input-field">
+          <input type="text" id="user-id" required />
+          <label for="user-id">user's id</label>
+        </div>
+        <button class="btn blue darken-2 z-depth-0">View</button>
+      </form>
+    </div>
+  </div>
+
 
   <!-- LOGIN MODAL -->
   <div id="modal-login" class="modal">
@@ -128,7 +158,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
     import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js'
-    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js'
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js'
     // Import the functions you need from the SDKs you need
     // https://firebase.google.com/docs/web/setup#available-libraries
   
@@ -147,26 +177,95 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-    // signup
-    const signupForm = document.querySelector('#signup-form');
-    signupForm.addEventListener('submit', (e) => {
+// signup
+const signupForm = document.querySelector('#signup-form');
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       // get user info
       const email = signupForm['signup-email'].value;
       const password = signupForm['signup-password'].value;
-      console.log(email, password)
+      const fName = signupForm['signup-fName'].value;
+      const lName = signupForm['signup-lName'].value;
+      const phoneNumber = signupForm['signup-phoneNumber'].value;
+      console.log(email, password, fName, lName, phoneNumber)
 
       // sign up the user
       createUserWithEmailAndPassword(auth, email, password).then(cred => {
         console.log(cred.user);
+        const userID = cred.user.uid;
         // close the signup modal & reset form
         const modal = document.querySelector('#modal-signup');
         M.Modal.getInstance(modal).close();
         signupForm.reset();
+        // sync info with db
+        const docRef = doc(db, 'users', userID)
+          var signupObject = { 
+            email: email,
+            firstName: fName,
+            id: userID, 
+            lastName: lName,
+            phoneNumber: phoneNumber,
+            profilePictureURL: '',
+            reunionsIds: [],
+          };
+          const signupSnapshot = setDoc(docRef, signupObject);
+          console.log('user is added with ID: ', userID);
       });
+
     });
 
+    const viewMyReunionsForm = document.querySelector('#viewMyReunionsForm');
+    viewMyReunionsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userId = viewMyReunionsForm['user-id'].value;
+      console.log('userId is: ', userId);
+
+      //Now I pull all the reunions (with events) from this person and log them in the console
+      // const usersCollection = collection(db, 'users');
+      const userDocRef = doc(db, 'users', userId);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        console.log("User data:", userDocSnap.data());
+        //So here we have the user's info.
+        var reunionsIdsArray = userDocSnap.data().reunionsIds;
+        
+        reunionsIdsArray.forEach(async (reunionId) => {
+          //For each reunion, I get its info by Id first
+          const reunionDocRef = doc(db, 'reunions', reunionId);
+          const reunionDocSnap = await getDoc(reunionDocRef);
+          if (reunionDocSnap.exists()) {
+            console.log("Reunion data:", reunionDocSnap.data());
+            var eventsIdsArray = reunionDocSnap.data().eventsIds;
+            //Now we have each reunion's data, so we can pull its events
+            eventsIdsArray.forEach(async (eventId) => {
+              //Pull each event's info now
+              const eventDocRef = doc(db, 'events', eventId);
+              const eventDocSnap = await getDoc(eventDocRef);
+              if (eventDocSnap.exists()) {
+                console.log("Event data:", eventDocSnap.data());
+                //Now we have all the info needed to list them.
+              }
+              else {
+                console.log('No such event!');
+              }
+            }); 
+
+          }
+          else {
+            console.log("No such reunion!");
+          }
+        
+        });
+        
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such user!");
+      }
+    });
+    
     const reunionForm = document.querySelector('#create-reunion');
     reunionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -174,14 +273,14 @@
       const title = reunionForm['createReunionTitle'].value;
       console.log('the reunion title: ', title);
 
-      const reunionsDb = collection(db, 'reunions');
+      const reunionsCollection = collection(db, 'reunions');
       var reunionObject = { 
         name: title,
         imageURL: '',
-        memberIds: [], //TODO: Add the creator (current user's ID as the first member)
+        memberIds: ['currentUserId'], //TODO: Add the creator (current user's ID as the first member)
         eventsIds: [],
       };
-      const reunionsSnapshot = await addDoc(reunionsDb, reunionObject);
+      const reunionsSnapshot = await addDoc(reunionsCollection, reunionObject);
       //Here I am updating the newly created reunion to add an 'id' field to it.
       const reunionDocRef = doc(db, "reunions", reunionsSnapshot.id);
       await updateDoc(reunionDocRef, {uid: reunionsSnapshot.id });
@@ -190,8 +289,8 @@
 
     //Listing reuinons on the page
     //First I grab them from the db
-    const reunionsDb = collection(db, 'reunions');
-    const reunionsSnapshot = await getDocs(reunionsDb);
+    const reunionsCollection = collection(db, 'reunions');
+    const reunionsSnapshot = await getDocs(reunionsCollection);
     const reunionsList = reunionsSnapshot.docs.map(doc => doc.data());
 
       console.log('reunions in the db: ', reunionsList);
@@ -214,6 +313,9 @@
     reunionsList.forEach((reunion) => {
       var reunionItem = '<li id="' + reunion.uid + '">';
         reunionItem += '<div class="collapsible-header grey lighten-4">' + reunion.name + '</div>';
+        reunionItem += '<div class="collapsible-body white">';
+          reunionItem += 'Reunion info here.';
+          reunionItem += '</div>';
       reunionItem += '</li>'; //close
 
       html += reunionItem;
