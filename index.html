@@ -171,10 +171,10 @@
       console.log('the reunion title: ', title);
 
       const reunionsDb = collection(db, 'reunions');
-      var reunionObject = {
+      var reunionObject = { 
         name: title,
         imageURL: '',
-        memberIds: [],
+        memberIds: [], //TODO: Add the creator (current user's ID as the first member)
         eventsIds: [],
       };
       const reunionsSnapshot = await addDoc(reunionsDb, reunionObject);
