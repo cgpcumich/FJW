@@ -265,58 +265,7 @@ const signupForm = document.querySelector('#signup-form');
         console.log("No such user!");
       }
     });
-
-    const viewMyReunionsForm = document.querySelector('#viewMyReunionsForm');
-    viewMyReunionsForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const userId = viewMyReunionsForm['user-id'].value;
-      console.log('userId is: ', userId);
-
-      //Now I pull all the reunions (with events) from this person and log them in the console
-      // const usersCollection = collection(db, 'users');
-      const userDocRef = doc(db, 'users', userId);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        console.log("User data:", userDocSnap.data());
-        //So here we have the user's info.
-        var reunionsIdsArray = userDocSnap.data().reunionsIds;
-        
-        reunionsIdsArray.forEach(async (reunionId) => {
-          //For each reunion, I get its info by Id first
-          const reunionDocRef = doc(db, 'reunions', reunionId);
-          const reunionDocSnap = await getDoc(reunionDocRef);
-          if (reunionDocSnap.exists()) {
-            console.log("Reunion data:", reunionDocSnap.data());
-            var eventsIdsArray = reunionDocSnap.data().eventsIds;
-            //Now we have each reunion's data, so we can pull its events
-            eventsIdsArray.forEach(async (eventId) => {
-              //Pull each event's info now
-              const eventDocRef = doc(db, 'events', eventId);
-              const eventDocSnap = await getDoc(eventDocRef);
-              if (eventDocSnap.exists()) {
-                console.log("Event data:", eventDocSnap.data());
-                //Now we have all the info needed to list them.
-              }
-              else {
-                console.log('No such event!');
-              }
-            }); 
-
-          }
-          else {
-            console.log("No such reunion!");
-          }
-        
-        });
-        
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such user!");
-      }
-    });
-        
+    
     const reunionForm = document.querySelector('#create-reunion');
     reunionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
