@@ -104,6 +104,8 @@
   <div id="modal-account" class="modal">
     <div class="modal-content center-align">
       <h4>Account Details</h4><br />
+      <h5>User ID: </h5>
+      <h5 id="userUID"></h5>
       <div class="account-details"></div>
     </div>
   </div>
@@ -116,6 +118,10 @@
         <div class="input-field">
           <input type="text" id="createReunionTitle" required>
           <label for="title">Reunion Name</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="mainUser" required>
+          <label for="title">Main User ID</label>
         </div>
         <button class="btn blue darken-2 z-depth-0">Create</button>
       </form>
@@ -219,6 +225,7 @@
           };
           const signupSnapshot = setDoc(docRef, signupObject);
           console.log('user is added with ID: ', userID);
+          document.getElementById("userUID").innerHTML = userID;
       });
     });
 
@@ -232,6 +239,8 @@
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        console.log(userCredential)
+        document.getElementById("userUID").innerHTML = userCredential.user.uid;
         // Signed in 
         const user = userCredential.user;
         console.log("log in successful")
@@ -349,13 +358,14 @@
       e.preventDefault();
 
       const title = reunionForm['createReunionTitle'].value;
+      const mainUser = reunionForm['mainUser'].value;
       console.log('the reunion title: ', title);
 
       const reunionsCollection = collection(db, 'reunions');
       var reunionObject = { 
         name: title,
         imageURL: '',
-        memberIds: ['currentUserId'], //TODO: Add the creator (current user's ID as the first member)
+        memberIds: [mainUser], //TODO: Add the creator (current user's ID as the first member)
         eventsIds: [],
       };
       const reunionsSnapshot = await addDoc(reunionsCollection, reunionObject);
