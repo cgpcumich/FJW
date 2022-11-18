@@ -374,6 +374,54 @@
       }
     });
     
+    const addMemberForm = document.querySelector("#addMemberForm");
+    addMemberForm.addEventListener('submit', async (e) => {
+      //Get the info from the form: 
+
+      const userId = addMemberForm['user-id'].value;
+      const reunionId = addMemberForm['reunion-id'].value;
+      
+      //When adding a member, 2 things get updated
+      //The member's reunionids and the reunion's members list
+
+      //First it will update the user's 
+      //First get the user
+
+      const userDocRef = doc(db, 'users', userId);
+      const userDocSnap = await getDoc(userDocRef);
+
+      const reunionDocRef = doc(db, 'reunions', reunionId);
+      const reunionDocSnap = await getDoc(reunionDocRef);
+
+      if (userDocSnap.exists()) {
+        console.log("User data:", userDocSnap.data());
+        //Now we add this reunion ID to this user
+        
+        await updateDoc(reunionDocRef, {
+          memberIds: arrayUnion(userId)
+        })
+
+        // const reunionResult = await reunionDocRef.update({
+        //   memberIds: FieldValue.arrayUnion(userDocSnap.data().uid)
+        // });
+      }
+      else {
+        console.log("User doesn't exist!");
+        // alert("Error, user doesn't exist!");
+      }
+      
+      if (reunionDocSnap.exists()) {
+        console.log("Reunion data:", reunionDocSnap.data());
+        await updateDoc(userDocRef, {
+          reunionsIds: arrayUnion(reunionId)
+        });
+      }
+      else {
+        console.log("Reunion doesn't exist!");
+        // alert("Error, Reunion doesn't exist!");
+      }
+    });
+
     // create reunion
     const reunionForm = document.querySelector('#create-reunion');
     reunionForm.addEventListener('submit', async (e) => {
