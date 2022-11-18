@@ -279,6 +279,7 @@
           const reunionDocSnap = await getDoc(reunionDocRef);
           if (reunionDocSnap.exists()) {
             console.log("Reunion data:", reunionDocSnap.data());
+            
             var eventsIdsArray = reunionDocSnap.data().eventsIds;
             //Now we have each reunion's data, so we can pull its events
             eventsIdsArray.forEach(async (eventId) => {
@@ -298,6 +299,41 @@
           else {
             console.log("No such reunion!");
           }
+          //Listing reuinons on the page
+          //First I grab them from the db
+          const reunionsCollection = collection(db, 'reunions');
+          const reunionsSnapshot = await getDocs(reunionsCollection);
+          const reunionsList = reunionsSnapshot.docs.map(doc => doc.data());
+
+            console.log('reunions in the db: ', reunionsList);
+            document.querySelector('#reunionsList').insertAdjacentHTML("afterbegin",  loadReunions(reunionsList));      
+            //This forEach loop basically goes through each item and sets an onclick event to it
+            reunionsList.forEach((reunion) => {
+              const id = reunion.uid;
+              var reunionItemList = document.querySelector('#' + id);
+              reunionItemList.addEventListener('click', function() {
+                //now when we click on any of the items, we can get any info and so we can do whatever we want.
+                //For now I am just going to print it so its visible what exactly did we click.
+                console.log('reunionItemList id is: ', reunionItemList.id);
+              });
+            }); 
+
+          //This is the function that actually loads the reunions into a list
+          function loadReunions(reunionsList) {
+            var html = "";
+
+            reunionsList.forEach((reunion) => {
+              var reunionItem = '<li id="' + reunion.uid + '">';
+                reunionItem += '<div class="collapsible-header grey lighten-4">' + reunion.name + '</div>';
+                reunionItem += '<div class="collapsible-body white">';
+                  reunionItem += 'Reunion info here.';
+                  reunionItem += '</div>';
+              reunionItem += '</li>'; //close
+
+              html += reunionItem;
+            });
+            return html;
+          };
         
         });
         
@@ -328,42 +364,6 @@
       await updateDoc(reunionDocRef, {uid: reunionsSnapshot.id });
       console.log('reunions is added with ID: ', reunionsSnapshot.id);
     });
-
-    //Listing reuinons on the page
-    //First I grab them from the db
-    const reunionsCollection = collection(db, 'reunions');
-    const reunionsSnapshot = await getDocs(reunionsCollection);
-    const reunionsList = reunionsSnapshot.docs.map(doc => doc.data());
-
-      console.log('reunions in the db: ', reunionsList);
-      document.querySelector('#reunionsList').insertAdjacentHTML("afterbegin",  loadReunions(reunionsList));      
-      //This forEach loop basically goes through each item and sets an onclick event to it
-      reunionsList.forEach((reunion) => {
-        const id = reunion.uid;
-        var reunionItemList = document.querySelector('#' + id);
-        reunionItemList.addEventListener('click', function() {
-          //now when we click on any of the items, we can get any info and so we can do whatever we want.
-          //For now I am just going to print it so its visible what exactly did we click.
-          console.log('reunionItemList id is: ', reunionItemList.id);
-        });
-      }); 
-
-  //This is the function that actually loads the reunions into a list
-  function loadReunions(reunionsList) {
-    var html = "";
-
-    reunionsList.forEach((reunion) => {
-      var reunionItem = '<li id="' + reunion.uid + '">';
-        reunionItem += '<div class="collapsible-header grey lighten-4">' + reunion.name + '</div>';
-        reunionItem += '<div class="collapsible-body white">';
-          reunionItem += 'Reunion info here.';
-          reunionItem += '</div>';
-      reunionItem += '</li>'; //close
-
-      html += reunionItem;
-    });
-    return html;
-  };
 
 
   </script>
