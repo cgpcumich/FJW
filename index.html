@@ -25,7 +25,7 @@
             <a href="#" class="grey-text modal-trigger" data-target="modal-create">Create Reunion</a>
           </li>
           <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-view-my-reunions">View my Reunions</a>
+            <a href="#" class="grey-text modal-trigger" id="viewMyReunionsButton">View my Reunions</a>
           </li>
           <li class="logged-out">
             <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
@@ -36,7 +36,6 @@
           <li class="logged-in">
             <a href="#" class="grey-text modal-trigger" data-target="modal-add-member">Add a member to the reunion</a>
           </li>
-        </span>
       </ul>
     </div>
   </nav>
@@ -72,18 +71,18 @@
   </div>
 
   <!-- VIEW MY REUNIONS MODAL -->
-  <div id="modal-view-my-reunions" class="modal">
+  <!-- <div id="modal-view-my-reunions" class="modal">
     <div class="modal-content">
       <h4>View my reunions</h4><br />
-      <form id="viewMyReunionsForm">
+      <div id="viewMyReunionsButton">
         <div class="input-field">
           <input type="text" id="user-id" required />
           <label for="user-id">user's id</label>
         </div>
         <button class="btn blue darken-2 z-depth-0">View</button>
-      </form>
+      </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- ADD A MEMBER MODAL -->
   <div id="modal-add-member" class="modal">
@@ -156,25 +155,6 @@
     <ul id="reunionsList">
 
     </ul>
-    <!-- <li>
-      <div class="collapsible-header grey lighten-4">Reunion title</div>
-      <div class="collapsible-body white">Reunion info here.</div>
-    </li> -->
-    <!-- <ul class="collapsible z-depth-0 guides" style="border: none;">
-      
-      <li>
-        <div class="collapsible-header grey lighten-4">Reunion title</div>
-        <div class="collapsible-body white"><span>Reunion info here.</span></div>
-      </li>
-      <li>
-        <div class="collapsible-header grey lighten-4">Reunion title</div>
-        <div class="collapsible-body white"><span>Reunion info here.</span></div>
-      </li>
-      <li>
-        <div class="collapsible-header grey lighten-4">Reunion title</div>
-        <div class="collapsible-body white"><span>Reunion info here.</span></div>
-      </li>
-    </ul> -->
   </div>
 
   <!-- FIREBASE -->
@@ -287,92 +267,115 @@
     });
     
     // view reunions
-    const viewMyReunionsForm = document.querySelector('#viewMyReunionsForm');
-    viewMyReunionsForm.addEventListener('submit', async (e) => {
+    const viewMyReunionsButton = document.querySelector('#viewMyReunionsButton');
+    viewMyReunionsButton.addEventListener('click', async (e) => {
       e.preventDefault();
       
-      const userId = viewMyReunionsForm['user-id'].value;
+      //So since for now the way we store the user id is by literally putting it into the code itself, I will just pull that
+      var userId = document.getElementById("userUID").innerText;
+
+      // userId = 'TIelzt5joiMZGQqe8T8AcATVQNZ2'; //This user has a couple of reunions, so its nice to use for testing purposes.
+
+      if (!userId || userId.length == 0) {
+        alert("user ID is empty. Try reloading the page and logging back in.");
+        return;
+      }
+
       console.log('userId is: ', userId);
 
-      //Now I pull all the reunions (with events) from this person and log them in the console
-      // const usersCollection = collection(db, 'users');
-      const userDocRef = doc(db, 'users', userId);
+      
+
+      var bigUserObject = {};
+      //Grab the user from db: 
+      const userDocRef = await doc(db, 'users', userId);
       const userDocSnap = await getDoc(userDocRef);
+      
+      //This is catching if no such user is in the db:
+      if (userDocSnap.data()) {
+        bigUserObject = userDocSnap.data();
+        bigUserObject.reunions = [];        
 
-      if (userDocSnap.exists()) {
-        console.log("User data:", userDocSnap.data());
-        //So here we have the user's info.
-        var reunionsIdsArray = userDocSnap.data().reunionsIds;
-        
-        reunionsIdsArray.forEach(async (reunionId) => {
-          //For each reunion, I get its info by Id first
-          const reunionDocRef = doc(db, 'reunions', reunionId);
+        //Now we have a place to go through reunions and add each one to the list
+        //Go through reunionIds and pull each reunion one-by-one
+        for (var rCounter = 0; rCounter < bigUserObject.reunionsIds.length; rCounter++) {
+          var reunionId = bigUserObject.reunionsIds[rCounter];
+          //Pull the reunion by its ID
+          const reunionDocRef = await doc(db, 'reunions', reunionId);
           const reunionDocSnap = await getDoc(reunionDocRef);
-          if (reunionDocSnap.exists()) {
-            console.log("Reunion data:", reunionDocSnap.data());
-            
-            var eventsIdsArray = reunionDocSnap.data().eventsIds;
-            //Now we have each reunion's data, so we can pull its events
-            eventsIdsArray.forEach(async (eventId) => {
-              //Pull each event's info now
-              const eventDocRef = doc(db, 'events', eventId);
-              const eventDocSnap = await getDoc(eventDocRef);
-              if (eventDocSnap.exists()) {
-                console.log("Event data:", eventDocSnap.data());
-                //Now we have all the info needed to list them.
-              }
-              else {
-                console.log('No such event!');
-              }
-            }); 
 
+          //If the reunion is found, add it to the 'reunions' array in the big object. Otherwise, catch an error
+          if (reunionDocSnap.data()) {
+            
+            var tempArray = bigUserObject.reunions;
+            tempArray.push(reunionDocSnap.data());
+            bigUserObject.reunions = tempArray;
+
+            //At this point we have a reunion added
+            //Now we create a field where we put the events
+            bigUserObject.reunions[rCounter].events = [];
+
+            //So now we go though eventIds            
+            for (var eCounter = 0; eCounter < bigUserObject.reunions[rCounter].eventsIds.length; eCounter++) {
+              var eventId = bigUserObject.reunions[rCounter].eventsIds[eCounter];
+              const eventDocRef = await doc(db, 'events', eventId);
+              const eventDocSnap = await getDoc(eventDocRef);
+
+              if (eventDocSnap.data()) {
+                tempArray = bigUserObject.reunions[rCounter].events;
+                tempArray.push(eventDocSnap.data());
+                bigUserObject.reunions[rCounter].events = tempArray;
+              }
+            }
           }
           else {
-            console.log("No such reunion!");
+            console.log(`No reunion with ID ${reunionId} was found`);
           }
-          //Listing reuinons on the page
-          //First I grab them from the db
-          const reunionsCollection = collection(db, 'reunions');
-          const reunionsSnapshot = await getDocs(reunionsCollection);
-          const reunionsList = reunionsSnapshot.docs.map(doc => doc.data());
+        }
+      }
+      else {
+        console.log('no such user found!');
+      }
 
-            console.log('reunions in the db: ', reunionsList);
-            document.querySelector('#reunionsList').insertAdjacentHTML("afterbegin",  loadReunions(reunionsList));      
-            //This forEach loop basically goes through each item and sets an onclick event to it
-            reunionsList.forEach((reunion) => {
-              const id = reunion.uid;
-              var reunionItemList = document.querySelector('#' + id);
-              reunionItemList.addEventListener('click', function() {
-                //now when we click on any of the items, we can get any info and so we can do whatever we want.
-                //For now I am just going to print it so its visible what exactly did we click.
-                console.log('reunionItemList id is: ', reunionItemList.id);
-              });
-            }); 
+      console.log('final bigUserObject', bigUserObject);
 
+      document.querySelector('#reunionsList').insertAdjacentHTML("afterbegin",  loadReunions(bigUserObject));
+    });
           //This is the function that actually loads the reunions into a list
-          function loadReunions(reunionsList) {
+          //The input is the bigUserObject that contains all the reunions and all the events for that user
+          //Now we just go through the object and create a list out of it.
+          function loadReunions(bigUserObject) {
             var html = "";
 
-            reunionsList.forEach((reunion) => {
-              var reunionItem = '<li id="' + reunion.uid + '">';
-                reunionItem += '<div class="collapsible-header grey lighten-4">' + reunion.name + '</div>';
-                reunionItem += '<div class="collapsible-body white">';
-                  reunionItem += 'Reunion info here.';
-                  reunionItem += '</div>';
-              reunionItem += '</li>'; //close
+            var reunionsList = bigUserObject.reunions;
 
+            if (bigUserObject.reunions.length == 0) { //if there are no reunions to show, just show a message "no reunions to show"
+            html = "<h2>No reunions to show</h2>";
+            return html;
+            }
+
+            for (var rCounter = 0; rCounter < bigUserObject.reunions.length; rCounter++) {
+              var reunion = bigUserObject.reunions[rCounter];
+              var reunionItem = '<div style="border-style: solid;">'
+              reunionItem += '<li id="' + reunion.uid + ' ">';
+                reunionItem += '<h3>' + reunion.name + '</h3>';
+                reunionItem += '<div>';
+                  for (var eCounter = 0; eCounter < bigUserObject.reunions[rCounter].events.length; eCounter++) {
+                    var event = bigUserObject.reunions[rCounter].events[eCounter];
+                    var eventItem = '<li id="' + event.uid + '">';
+                      eventItem += `<h5>${event.name}</h5>`;
+                      eventItem += `<p>${event.description}</p>`;
+                      
+                      eventItem += '</li>'
+                      reunionItem += eventItem;
+                  }
+                reunionItem += '</div>';
+              reunionItem += '</li>'; //close
+              reunionItem += '</div>'
               html += reunionItem;
-            });
+            }
+            
             return html;
           };
-        
-        });
-        
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such user!");
-      }
-    });
     
     const addMemberForm = document.querySelector("#addMemberForm");
     addMemberForm.addEventListener('submit', async (e) => {
