@@ -1,77 +1,110 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
     <title>FamJams</title>
-</head>
-<body class="grey lighten-3">
-
-  <!-- NAV -->
-  <nav class="z-depth-0 grey lighten-4">
-    <div class="nav-wrapper container">
-      <a href="#" class="brand-logo">
-        <img src="img/logo.svg" style="width: 180px; margin-top: -15px;">
-      </a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+  </head>
+  <body class="grey lighten-3">
+    <!-- NAV -->
+    <nav class="z-depth-0 grey lighten-4">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">
+          <img src="img/logo.svg" style="width: 180px; margin-top: -15px" />
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-account"
+              >Account</a
+            >
           </li>
           <li class="logged-in">
             <a href="#" class="grey-text" id="logout">Logout</a>
           </li>
           <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-create">Create Reunion</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-create"
+              >Create Reunion</a
+            >
           </li>
           <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" id="viewMyReunionsButton">View my Reunions</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              id="viewMyReunionsButton"
+              >View my Reunions</a
+            >
           </li>
           <li class="logged-out">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-login"
+              >Login</a
+            >
           </li>
           <li class="logged-out">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign Up</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-signup"
+              >Sign Up</a
+            >
           </li>
           <li class="logged-in">
-            <a href="#" class="grey-text modal-trigger" data-target="modal-add-member">Add a member to the reunion</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-add-member"
+              >Add a member to the reunion</a
+            >
           </li>
-      </ul>
-    </div>
-  </nav>
+        </ul>
+      </div>
+    </nav>
 
-  <!-- SIGN UP MODAL -->
-  <div id="modal-signup" class="modal">
-    <div class="modal-content">
-      <h4>Sign Up</h4><br />
-      <form id="signup-form">
-        <div class="input-field">
-          <input type="fName" id="signup-fName" required />
-          <label for="signup-Fname">First Name</label>
-        </div>
-        <div class="input-field">
-          <input type="lName" id="signup-lName" required />
-          <label for="signup-lname">Last Name</label>
-        </div>     
-        <div class="input-field">
-          <input type="email" id="signup-email" required />
-          <label for="signup-email">Email Address</label>
-        </div>
-        <div class="input-field">
-          <input type="password" id="signup-password" required />
-          <label for="signup-password">Choose Password</label>
-        </div>   
-        <div class="input-field">
-          <input type="phoneNumber" id="signup-phoneNumber" required />
-          <label for="signup-phoneNumber">Phone Number</label>
-        </div> 
-        <button class="btn blue darken-2 z-depth-0">Sign Up</button>
-      </form>
+    <!-- SIGN UP MODAL -->
+    <div id="modal-signup" class="modal">
+      <div class="modal-content">
+        <h4>Sign Up</h4>
+        <br />
+        <form id="signup-form">
+          <div class="input-field">
+            <input type="fName" id="signup-fName" required />
+            <label for="signup-Fname">First Name</label>
+          </div>
+          <div class="input-field">
+            <input type="lName" id="signup-lName" required />
+            <label for="signup-lname">Last Name</label>
+          </div>
+          <div class="input-field">
+            <input type="email" id="signup-email" required />
+            <label for="signup-email">Email Address</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="signup-password" required />
+            <label for="signup-password">Choose Password</label>
+          </div>
+          <div class="input-field">
+            <input type="phoneNumber" id="signup-phoneNumber" required />
+            <label for="signup-phoneNumber">Phone Number</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Sign Up</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <!-- VIEW MY REUNIONS MODAL -->
-  <!-- <div id="modal-view-my-reunions" class="modal">
+    <!-- VIEW MY REUNIONS MODAL -->
+    <!-- <div id="modal-view-my-reunions" class="modal">
     <div class="modal-content">
       <h4>View my reunions</h4><br />
       <div id="viewMyReunionsButton">
@@ -84,382 +117,416 @@
     </div>
   </div> -->
 
-  <!-- ADD A MEMBER MODAL -->
-  <div id="modal-add-member" class="modal">
-    <div class="modal-content">
-      <h4>View my reunions</h4><br />
-      <form id="addMemberForm">
-        <div class="input-field">
-          <input type="text" id="user-id" required />
-          <label for="user-id">user to add (enter their id for now)</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="reunion-id" required />
-          <label for="reunion-id">Reunion's id to add to</label>
-        </div>
-        <button class="btn blue darken-2 z-depth-0">Add</button>
-      </form>
+    <!-- ADD A MEMBER MODAL -->
+    <div id="modal-add-member" class="modal">
+      <div class="modal-content">
+        <h4>View my reunions</h4>
+        <br />
+        <form id="addMemberForm">
+          <div class="input-field">
+            <input type="text" id="user-id" required />
+            <label for="user-id">user to add (enter their id for now)</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="reunion-id" required />
+            <label for="reunion-id">Reunion's id to add to</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Add</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-
-  <!-- LOGIN MODAL -->
-  <div id="modal-login" class="modal">
-    <div class="modal-content">
-      <h4>Login</h4><br />
-      <form id="login-form">
-        <div class="input-field">
-          <input type="email" id="login-email" required />
-          <label for="login-email">Email Address</label>
-        </div>
-        <div class="input-field">
-          <input type="password" id="login-password" required />
-          <label for="login-password">Password</label>
-        </div>
-        <button class="btn blue darken-2 z-depth-0">Login</button>
-      </form>
+    <!-- LOGIN MODAL -->
+    <div id="modal-login" class="modal">
+      <div class="modal-content">
+        <h4>Login</h4>
+        <br />
+        <form id="login-form">
+          <div class="input-field">
+            <input type="email" id="login-email" required />
+            <label for="login-email">Email Address</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="login-password" required />
+            <label for="login-password">Password</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Login</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <!-- ACCOUNT MODAL -->
-  <div id="modal-account" class="modal">
-    <div class="modal-content center-align">
-      <h4>Account Details</h4><br />
-      <h5>User ID: </h5>
-      <h5 id="userUID"></h5>
-      <div class="account-details"></div>
+    <!-- ACCOUNT MODAL -->
+    <div id="modal-account" class="modal">
+      <div class="modal-content center-align">
+        <h4>Account Details</h4>
+        <br />
+        <h5>User ID:</h5>
+        <h5 id="userUID"></h5>
+        <div class="account-details"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- CREATE REUNION MODAL -->
-  <div id="modal-create" class="modal">
-    <div class="modal-content">
-      <h4>Create Reunion</h4><br />
-      <form id="create-reunion">
-        <div class="input-field">
-          <input type="text" id="createReunionTitle" required>
-          <label for="title">Reunion Name</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="mainUser" required>
-          <label for="title">Main User ID</label>
-        </div>
-        <button class="btn blue darken-2 z-depth-0">Create</button>
-      </form>
+    <!-- CREATE REUNION MODAL -->
+    <div id="modal-create" class="modal">
+      <div class="modal-content">
+        <h4>Create Reunion</h4>
+        <br />
+        <form id="create-reunion">
+          <div class="input-field">
+            <input type="text" id="createReunionTitle" required />
+            <label for="title">Reunion Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="mainUser" required />
+            <label for="title">Main User ID</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Create</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <!-- REUNION LIST -->
-  <div class="container" style="margin-top: 40px;" id="reunionContainer">
+    <!-- REUNION LIST -->
+    <div class="container" style="margin-top: 40px" id="reunionContainer">
+      <ul id="reunionsList"></ul>
+    </div>
 
-    <ul id="reunionsList">
+    <!-- FIREBASE -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        addDoc,
+        updateDoc,
+        doc,
+        getDoc,
+        setDoc,
+        arrayUnion,
+        arrayRemove,
+      } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
+      // Import the functions you need from the SDKs you need
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-    </ul>
-  </div>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDFLuyUBFYP62hILujyTSOh8rBJEL9u01w",
+        authDomain: "famjams.firebaseapp.com",
+        databaseURL: "https://famjams-default-rtdb.firebaseio.com",
+        projectId: "famjams",
+        storageBucket: "famjams.appspot.com",
+        messagingSenderId: "291627926948",
+        appId: "1:291627926948:web:0da26295753a5d927ced31",
+        measurementId: "G-CZYJV68CLG",
+      };
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
-  <!-- FIREBASE -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js'
-    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, getDoc, setDoc, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js'
-    // Import the functions you need from the SDKs you need
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFLuyUBFYP62hILujyTSOh8rBJEL9u01w",
-      authDomain: "famjams.firebaseapp.com",
-      databaseURL: "https://famjams-default-rtdb.firebaseio.com",
-      projectId: "famjams",
-      storageBucket: "famjams.appspot.com",
-      messagingSenderId: "291627926948",
-      appId: "1:291627926948:web:0da26295753a5d927ced31",
-      measurementId: "G-CZYJV68CLG"
-    };
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+      // Auth State
+      const authState = getAuth();
+      onAuthStateChanged(authState, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.Userconsole.log("authStat changed")
+          console.log("authStat changed");
+          setupUI(user);
+        } else {
+          console.log("authStat changed");
+          setupUI();
+        }
+      });
 
-    // Auth State
-    const authState = getAuth();
-    onAuthStateChanged(authState, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.Userconsole.log("authStat changed")
-        console.log("authStat changed");
-        setupUI(user);
-      } else {
-        console.log("authStat changed");
-        setupUI();
-      }
-    });
-      
-    // signup
-    const signupForm = document.querySelector('#signup-form');
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // get user info
-      const email = signupForm['signup-email'].value;
-      const password = signupForm['signup-password'].value;
-      const fName = signupForm['signup-fName'].value;
-      const lName = signupForm['signup-lName'].value;
-      const phoneNumber = signupForm['signup-phoneNumber'].value;
-      console.log(email, password, fName, lName, phoneNumber);
-      // sign up the user
-      createUserWithEmailAndPassword(auth, email, password).then(cred => {
-        console.log(cred.user);
-        const userID = cred.user.uid;
-        // close the signup modal & reset form
-        const modal = document.querySelector('#modal-signup');
-        M.Modal.getInstance(modal).close();
-        signupForm.reset();
-        // sync info with db
-        const docRef = doc(db, 'users', userID);
-          var signupObject = { 
+      // signup
+      const signupForm = document.querySelector("#signup-form");
+      signupForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // get user info
+        const email = signupForm["signup-email"].value;
+        const password = signupForm["signup-password"].value;
+        const fName = signupForm["signup-fName"].value;
+        const lName = signupForm["signup-lName"].value;
+        const phoneNumber = signupForm["signup-phoneNumber"].value;
+        console.log(email, password, fName, lName, phoneNumber);
+        // sign up the user
+        createUserWithEmailAndPassword(auth, email, password).then((cred) => {
+          console.log(cred.user);
+          const userID = cred.user.uid;
+          // close the signup modal & reset form
+          const modal = document.querySelector("#modal-signup");
+          M.Modal.getInstance(modal).close();
+          signupForm.reset();
+          // sync info with db
+          const docRef = doc(db, "users", userID);
+          var signupObject = {
             email: email,
             firstName: fName,
-            id: userID, 
+            id: userID,
             lastName: lName,
             phoneNumber: phoneNumber,
-            profilePictureURL: '',
+            profilePictureURL: "",
             reunionsIds: [],
           };
           const signupSnapshot = setDoc(docRef, signupObject);
-          console.log('user is added with ID: ', userID);
+          console.log("user is added with ID: ", userID);
           document.getElementById("userUID").innerHTML = userID;
-      });
-    });
-
-    // login
-    const loginForm = document.querySelector('#login-form');
-    loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    // get user info
-    const email = loginForm['login-email'].value;
-    const password = loginForm['login-password'].value;
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        document.getElementById("userUID").innerHTML = userCredential.user.uid;
-        // Signed in 
-        const user = userCredential.user;
-        console.log("log in successful");
-        const modal = document.querySelector('#modal-login');
-        M.Modal.getInstance(modal).close();
-        loginForm.reset();
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-    });
-  
-    // sign out
-    const logout = document.querySelector('#logout');
-    logout.addEventListener('click', (e) => {
-      e.preventDefault();
-      const out = getAuth();
-      signOut(out).then(() => {
-      }).catch((error) => {
-      });
-    });
-    
-    // view reunions
-    const viewMyReunionsButton = document.querySelector('#viewMyReunionsButton');
-    viewMyReunionsButton.addEventListener('click', async (e) => {
-      e.preventDefault();
-      
-      //So since for now the way we store the user id is by literally putting it into the code itself, I will just pull that
-      var userId = document.getElementById("userUID").innerText;
-
-      // userId = 'TIelzt5joiMZGQqe8T8AcATVQNZ2'; //This user has a couple of reunions, so its nice to use for testing purposes.
-
-      if (!userId || userId.length == 0) {
-        alert("user ID is empty. Try reloading the page and logging back in.");
-        return;
-      }
-
-      console.log('userId is: ', userId);
-
-      
-
-      var bigUserObject = {};
-      //Grab the user from db: 
-      const userDocRef = await doc(db, 'users', userId);
-      const userDocSnap = await getDoc(userDocRef);
-      
-      //This is catching if no such user is in the db:
-      if (userDocSnap.data()) {
-        bigUserObject = userDocSnap.data();
-        bigUserObject.reunions = [];        
-
-        //Now we have a place to go through reunions and add each one to the list
-        //Go through reunionIds and pull each reunion one-by-one
-        for (var rCounter = 0; rCounter < bigUserObject.reunionsIds.length; rCounter++) {
-          var reunionId = bigUserObject.reunionsIds[rCounter];
-          //Pull the reunion by its ID
-          const reunionDocRef = await doc(db, 'reunions', reunionId);
-          const reunionDocSnap = await getDoc(reunionDocRef);
-
-          //If the reunion is found, add it to the 'reunions' array in the big object. Otherwise, catch an error
-          if (reunionDocSnap.data()) {
-            
-            var tempArray = bigUserObject.reunions;
-            tempArray.push(reunionDocSnap.data());
-            bigUserObject.reunions = tempArray;
-
-            //At this point we have a reunion added
-            //Now we create a field where we put the events
-            bigUserObject.reunions[rCounter].events = [];
-
-            //So now we go though eventIds            
-            for (var eCounter = 0; eCounter < bigUserObject.reunions[rCounter].eventsIds.length; eCounter++) {
-              var eventId = bigUserObject.reunions[rCounter].eventsIds[eCounter];
-              const eventDocRef = await doc(db, 'events', eventId);
-              const eventDocSnap = await getDoc(eventDocRef);
-
-              if (eventDocSnap.data()) {
-                tempArray = bigUserObject.reunions[rCounter].events;
-                tempArray.push(eventDocSnap.data());
-                bigUserObject.reunions[rCounter].events = tempArray;
-              }
-            }
-          }
-          else {
-            console.log(`No reunion with ID ${reunionId} was found`);
-          }
-        }
-      }
-      else {
-        console.log('no such user found!');
-      }
-
-      console.log('final bigUserObject', bigUserObject);
-
-      document.querySelector('#reunionsList').insertAdjacentHTML("afterbegin",  loadReunions(bigUserObject));
-    });
-          //This is the function that actually loads the reunions into a list
-          //The input is the bigUserObject that contains all the reunions and all the events for that user
-          //Now we just go through the object and create a list out of it.
-          function loadReunions(bigUserObject) {
-            var html = "";
-
-            var reunionsList = bigUserObject.reunions;
-
-            if (bigUserObject.reunions.length == 0) { //if there are no reunions to show, just show a message "no reunions to show"
-            html = "<h2>No reunions to show</h2>";
-            return html;
-            }
-
-            for (var rCounter = 0; rCounter < bigUserObject.reunions.length; rCounter++) {
-              var reunion = bigUserObject.reunions[rCounter];
-              var reunionItem = '<div style="border-style: solid;">'
-              reunionItem += '<li id="' + reunion.uid + ' ">';
-                reunionItem += '<h3>' + reunion.name + '</h3>';
-                reunionItem += '<div>';
-                  for (var eCounter = 0; eCounter < bigUserObject.reunions[rCounter].events.length; eCounter++) {
-                    var event = bigUserObject.reunions[rCounter].events[eCounter];
-                    var eventItem = '<li id="' + event.uid + '">';
-                      eventItem += `<h5>${event.name}</h5>`;
-                      eventItem += `<p>${event.description}</p>`;
-                      
-                      eventItem += '</li>'
-                      reunionItem += eventItem;
-                  }
-                reunionItem += '</div>';
-              reunionItem += '</li>'; //close
-              reunionItem += '</div>'
-              html += reunionItem;
-            }
-            
-            return html;
-          };
-    
-    const addMemberForm = document.querySelector("#addMemberForm");
-    addMemberForm.addEventListener('submit', async (e) => {
-      //Get the info from the form: 
-
-      const userId = addMemberForm['user-id'].value;
-      const reunionId = addMemberForm['reunion-id'].value;
-      
-      //When adding a member, 2 things get updated
-      //The member's reunionids and the reunion's members list
-
-      //First it will update the user's 
-      //First get the user
-
-      const userDocRef = doc(db, 'users', userId);
-      const userDocSnap = await getDoc(userDocRef);
-
-      const reunionDocRef = doc(db, 'reunions', reunionId);
-      const reunionDocSnap = await getDoc(reunionDocRef);
-
-      if (userDocSnap.exists()) {
-        console.log("User data:", userDocSnap.data());
-        //Now we add this reunion ID to this user
-        
-        await updateDoc(reunionDocRef, {
-          memberIds: arrayUnion(userId)
-        })
-
-        // const reunionResult = await reunionDocRef.update({
-        //   memberIds: FieldValue.arrayUnion(userDocSnap.data().uid)
-        // });
-      }
-      else {
-        console.log("User doesn't exist!");
-        // alert("Error, user doesn't exist!");
-      }
-      
-      if (reunionDocSnap.exists()) {
-        console.log("Reunion data:", reunionDocSnap.data());
-        await updateDoc(userDocRef, {
-          reunionsIds: arrayUnion(reunionId)
         });
-      }
-      else {
-        console.log("Reunion doesn't exist!");
-        // alert("Error, Reunion doesn't exist!");
-      }
-    });
-
-    // create reunion
-    const reunionForm = document.querySelector('#create-reunion');
-    reunionForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const title = reunionForm['createReunionTitle'].value;
-      const mainUser = reunionForm['mainUser'].value;
-      console.log('the reunion title: ', title);
-
-      const reunionsCollection = collection(db, 'reunions');
-      var reunionObject = { 
-        name: title,
-        imageURL: '',
-        memberIds: [mainUser], //TODO: Add the creator (current user's ID as the first member)
-        eventsIds: [],
-      };
-     
-      const reunionsSnapshot = await addDoc(reunionsCollection, reunionObject);
-      //Here I am updating the newly created reunion to add an 'id' field to it.
-      const reunionDocRef = doc(db, "reunions", reunionsSnapshot.id);
-      await updateDoc(reunionDocRef, {uid: reunionsSnapshot.id });
-      console.log('reunions is added with ID: ', reunionsSnapshot.id);
-      // updates userID
-      const docRef = doc(db, 'users', mainUser);
-      await updateDoc(docRef, {
-        reunionsIds: arrayUnion(reunionsSnapshot.id)
       });
-    });
 
+      // login
+      const loginForm = document.querySelector("#login-form");
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // get user info
+        const email = loginForm["login-email"].value;
+        const password = loginForm["login-password"].value;
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            console.log(userCredential);
+            document.getElementById("userUID").innerHTML =
+              userCredential.user.uid;
+            // Signed in
+            const user = userCredential.user;
+            console.log("log in successful");
+            const modal = document.querySelector("#modal-login");
+            M.Modal.getInstance(modal).close();
+            loginForm.reset();
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
+      });
 
-  </script>
+      // sign out
+      const logout = document.querySelector("#logout");
+      logout.addEventListener("click", (e) => {
+        e.preventDefault();
+        const out = getAuth();
+        signOut(out)
+          .then(() => {})
+          .catch((error) => {});
+      });
 
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="scripts/index.js"></script>
+      // view reunions
+      const viewMyReunionsButton = document.querySelector(
+        "#viewMyReunionsButton"
+      );
+      viewMyReunionsButton.addEventListener("click", async (e) => {
+        e.preventDefault();
 
-</body>
+        //So since for now the way we store the user id is by literally putting it into the code itself, I will just pull that
+        var userId = document.getElementById("userUID").innerText;
+
+        // userId = 'TIelzt5joiMZGQqe8T8AcATVQNZ2'; //This user has a couple of reunions, so its nice to use for testing purposes.
+
+        if (!userId || userId.length == 0) {
+          alert(
+            "user ID is empty. Try reloading the page and logging back in."
+          );
+          return;
+        }
+
+        console.log("userId is: ", userId);
+        var bigUserObject = {};
+        //Grab the user from db:
+        const userDocRef = await doc(db, "users", userId);
+        const userDocSnap = await getDoc(userDocRef);
+
+        //This is catching if no such user is in the db:
+        if (userDocSnap.data()) {
+          bigUserObject = userDocSnap.data();
+          bigUserObject.reunions = [];
+
+          //Now we have a place to go through reunions and add each one to the list
+          //Go through reunionIds and pull each reunion one-by-one
+          for (
+            var rCounter = 0;
+            rCounter < bigUserObject.reunionsIds.length;
+            rCounter++
+          ) {
+            var reunionId = bigUserObject.reunionsIds[rCounter];
+            //Pull the reunion by its ID
+            const reunionDocRef = await doc(db, "reunions", reunionId);
+            const reunionDocSnap = await getDoc(reunionDocRef);
+
+            //If the reunion is found, add it to the 'reunions' array in the big object. Otherwise, catch an error
+            if (reunionDocSnap.data()) {
+              var tempArray = bigUserObject.reunions;
+              tempArray.push(reunionDocSnap.data());
+              bigUserObject.reunions = tempArray;
+
+              //At this point we have a reunion added
+              //Now we create a field where we put the events
+              bigUserObject.reunions[rCounter].events = [];
+
+              //So now we go though eventIds
+              for (
+                var eCounter = 0;
+                eCounter < bigUserObject.reunions[rCounter].eventsIds.length;
+                eCounter++
+              ) {
+                var eventId =
+                  bigUserObject.reunions[rCounter].eventsIds[eCounter];
+                const eventDocRef = await doc(db, "events", eventId);
+                const eventDocSnap = await getDoc(eventDocRef);
+
+                if (eventDocSnap.data()) {
+                  tempArray = bigUserObject.reunions[rCounter].events;
+                  tempArray.push(eventDocSnap.data());
+                  bigUserObject.reunions[rCounter].events = tempArray;
+                }
+              }
+            } else {
+              console.log(`No reunion with ID ${reunionId} was found`);
+            }
+          }
+        } else {
+          console.log("no such user found!");
+        }
+
+        console.log("final bigUserObject", bigUserObject);
+
+        document
+          .querySelector("#reunionsList")
+          .insertAdjacentHTML("afterbegin", loadReunions(bigUserObject));
+      });
+      //This is the function that actually loads the reunions into a list
+      //The input is the bigUserObject that contains all the reunions and all the events for that user
+      //Now we just go through the object and create a list out of it.
+      function loadReunions(bigUserObject) {
+        var html = "";
+
+        var reunionsList = bigUserObject.reunions;
+
+        if (bigUserObject.reunions.length == 0) {
+          //if there are no reunions to show, just show a message "no reunions to show"
+          html = "<h2>No reunions to show</h2>";
+          return html;
+        }
+
+        for (
+          var rCounter = 0;
+          rCounter < bigUserObject.reunions.length;
+          rCounter++
+        ) {
+          var reunion = bigUserObject.reunions[rCounter];
+          var reunionItem = '<div style="border-style: solid;">';
+          reunionItem += '<li id="' + reunion.uid + ' ">';
+          reunionItem += "<h3>" + reunion.name + "</h3>";
+          reunionItem += "<div>";
+          for (
+            var eCounter = 0;
+            eCounter < bigUserObject.reunions[rCounter].events.length;
+            eCounter++
+          ) {
+            var event = bigUserObject.reunions[rCounter].events[eCounter];
+            var eventItem = '<li id="' + event.uid + '">';
+            eventItem += `<h5>${event.name}</h5>`;
+            eventItem += `<p>${event.description}</p>`;
+
+            eventItem += "</li>";
+            reunionItem += eventItem;
+          }
+          reunionItem += "</div>";
+          reunionItem += "</li>"; //close
+          reunionItem += "</div>";
+          html += reunionItem;
+        }
+
+        return html;
+      }
+
+      const addMemberForm = document.querySelector("#addMemberForm");
+      addMemberForm.addEventListener("submit", async (e) => {
+        //Get the info from the form:
+
+        const userId = addMemberForm["user-id"].value;
+        const reunionId = addMemberForm["reunion-id"].value;
+
+        //When adding a member, 2 things get updated
+        //The member's reunionids and the reunion's members list
+
+        //First it will update the user's
+        //First get the user
+
+        const userDocRef = doc(db, "users", userId);
+        const userDocSnap = await getDoc(userDocRef);
+
+        const reunionDocRef = doc(db, "reunions", reunionId);
+        const reunionDocSnap = await getDoc(reunionDocRef);
+
+        if (userDocSnap.exists()) {
+          console.log("User data:", userDocSnap.data());
+          //Now we add this reunion ID to this user
+
+          await updateDoc(reunionDocRef, {
+            memberIds: arrayUnion(userId),
+          });
+
+          // const reunionResult = await reunionDocRef.update({
+          //   memberIds: FieldValue.arrayUnion(userDocSnap.data().uid)
+          // });
+        } else {
+          console.log("User doesn't exist!");
+          // alert("Error, user doesn't exist!");
+        }
+
+        if (reunionDocSnap.exists()) {
+          console.log("Reunion data:", reunionDocSnap.data());
+          await updateDoc(userDocRef, {
+            reunionsIds: arrayUnion(reunionId),
+          });
+        } else {
+          console.log("Reunion doesn't exist!");
+          // alert("Error, Reunion doesn't exist!");
+        }
+      });
+
+      // create reunion
+      const reunionForm = document.querySelector("#create-reunion");
+      reunionForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const title = reunionForm["createReunionTitle"].value;
+        const mainUser = reunionForm["mainUser"].value;
+        console.log("the reunion title: ", title);
+
+        const reunionsCollection = collection(db, "reunions");
+        var reunionObject = {
+          name: title,
+          imageURL: "",
+          memberIds: [mainUser], //TODO: Add the creator (current user's ID as the first member)
+          eventsIds: [],
+        };
+
+        const reunionsSnapshot = await addDoc(
+          reunionsCollection,
+          reunionObject
+        );
+        //Here I am updating the newly created reunion to add an 'id' field to it.
+        const reunionDocRef = doc(db, "reunions", reunionsSnapshot.id);
+        await updateDoc(reunionDocRef, { uid: reunionsSnapshot.id });
+        console.log("reunions is added with ID: ", reunionsSnapshot.id);
+        // updates userID
+        const docRef = doc(db, "users", mainUser);
+        await updateDoc(docRef, {
+          reunionsIds: arrayUnion(reunionsSnapshot.id),
+        });
+      });
+    </script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="scripts/index.js"></script>
+  </body>
 </html>
