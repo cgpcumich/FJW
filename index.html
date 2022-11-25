@@ -7,10 +7,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+
     <title>FamJams</title>
   </head>
   <body class="grey lighten-3">
     <!-- NAV -->
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <!-- <script>window.OneSignal = window.OneSignal || [];</script> -->
     <nav class="z-depth-0 grey lighten-4">
       <div class="nav-wrapper container">
         <a href="#" class="brand-logo">
@@ -213,6 +216,8 @@
         arrayUnion,
         arrayRemove,
       } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
+
+      // import {OneSignal} from "https://cdn.onesignal.com/sdks/OneSignalSDK.js";
       // Import the functions you need from the SDKs you need
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -276,6 +281,10 @@
             reunionsIds: [],
           };
           const signupSnapshot = setDoc(docRef, signupObject);
+          // OneSignal.shared
+          //   .setExternalUserId(userID)
+          //   .then((results) => {})
+          //   .catchError((error) => {});
           console.log("user is added with ID: ", userID);
           document.getElementById("userUID").innerHTML = userID;
         });
@@ -472,13 +481,8 @@
           await updateDoc(reunionDocRef, {
             memberIds: arrayUnion(userId),
           });
-
-          // const reunionResult = await reunionDocRef.update({
-          //   memberIds: FieldValue.arrayUnion(userDocSnap.data().uid)
-          // });
         } else {
           console.log("User doesn't exist!");
-          // alert("Error, user doesn't exist!");
         }
 
         if (reunionDocSnap.exists()) {
@@ -486,9 +490,39 @@
           await updateDoc(userDocRef, {
             reunionsIds: arrayUnion(reunionId),
           });
+
+          //Send a notification to the user that was added (userId is the ref point)
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              authorization:
+                "Basic YjY4YzNkODgtZjRkZC00MDhkLWFjMDAtMzZjMzViZjM2OWEx",
+              // included_segments: ["Subscribed Users"],
+              "content-type": "application/json",
+            },
+
+            //The reunion I am adding: MGkeAmO72v89Vgu3XVRo
+            body: JSON.stringify({
+              app_id: "03137177-7099-4ca3-b1bf-a0cb011e5ce0",
+              include_external_user_ids: ["TIelzt5joiMZGQqe8T8AcATVQNZ2"],
+              included_segments: ["Subscribed Users"],
+              contents: {
+                en:
+                  `You have been added to the ` +
+                  reunionDocSnap.data().name +
+                  ` reunion`,
+              },
+              name: "INTERNAL_CAMPAIGN_NAME",
+            }),
+          };
+          fetch(
+            "https://onesignal.com/api/v1/notifications",
+            requestOptions
+          ).then((response) => {
+            console.log(response.json());
+          });
         } else {
           console.log("Reunion doesn't exist!");
-          // alert("Error, Reunion doesn't exist!");
         }
       });
 
