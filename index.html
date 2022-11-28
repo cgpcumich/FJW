@@ -176,12 +176,12 @@
             <label for="description-id">Description of event</label>
           </div>
           <div class="input-field">
-            <input type="text" id="reunionName-id" required />
-            <label for="reunionName-id">Name of Reunion</label>
-          </div>
-          <div class="input-field">
             <input type="text" id="time-id" required />
             <label for="time-id">Date and Time of Event</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="reunionName-id" required />
+            <label for="reunionName-id">Name of Reunion</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Add</button>
         </form>
@@ -213,9 +213,9 @@
         <h4>Account Details</h4>
         <br />
         <h5>First Name:</h5>
-        <h5 id="userLast"></h5>
-        <h5>Last Name:</h5>
         <h5 id="userFirst"></h5>
+        <h5>Last Name:</h5>
+        <h5 id="userLast"></h5>
         <h5>Phone Number:</h5>
         <h5 id="userPhone"></h5>
         <h5>Email:</h5>
@@ -268,6 +268,7 @@
         setDoc,
         arrayUnion,
         arrayRemove,
+        onSnapshot,
       } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
 
       // import {OneSignal} from "https://cdn.onesignal.com/sdks/OneSignalSDK.js";
@@ -340,8 +341,8 @@
           //   .catchError((error) => {});
           console.log("user is added with ID: ", userID);
           document.getElementById("userUID").innerHTML = userID;
-          document.getElementById("userFirst").innerHTML = firstName;
-          document.getElementById("userLast").innerHTML = lastName;
+          document.getElementById("userFirst").innerHTML = fName;
+          document.getElementById("userLast").innerHTML = lName;
           document.getElementById("userEmail").innerHTML = email;
           document.getElementById("userPhone").innerHTML = phoneNumber;
 
@@ -364,6 +365,11 @@
               userCredential.user.uid;
             document.getElementById("userEmail").innerHTML =
               userCredential.user.email
+            const signDocRef = onSnapshot(doc(db, "users", userCredential.user.uid), (doc) => {
+              document.getElementById("userFirst").innerHTML = doc.data().firstName;
+              document.getElementById("userLast").innerHTML = doc.data().lastName;
+              document.getElementById("userPhone").innerHTML = doc.data().phoneNumber;
+            })
             // Signed in
             const user = userCredential.user;
             console.log("log in successful");
@@ -635,13 +641,15 @@
 
         const title = eventForm["event-id"].value;
         const desc = eventForm["description-id"].value;
-        const addToReunion = eventForm["reunionName-id"].value;
         const time = eventForm["time-id"].value;
-        console.log(title, desc, addToReunion, time);
+        const addToReunion = eventForm["reunionName-id"].value;
+        console.log(title, desc, time, addToReunion);
 
         const modal = document.querySelector("#modal-add-event");
         M.Modal.getInstance(modal).close();
         eventForm.reset();
+
+        
 
         const eventsCollection = collection(db, "events");
         var eventObject = {
