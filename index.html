@@ -635,6 +635,7 @@
       });
 
       // create event
+      var reunionMatch;
       const eventForm = document.querySelector("#AddEventForm");
       eventForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -649,7 +650,16 @@
         M.Modal.getInstance(modal).close();
         eventForm.reset();
 
-        
+        const allReunionsSnapshot = await getDocs(collection(db, "reunions"));
+        allReunionsSnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+          if (doc.data().name == addToReunion) {
+            console.log(doc.id, " => ", doc.data());
+            reunionMatch = doc.id;
+          }
+        });
+
+        console.log(reunionMatch)
 
         const eventsCollection = collection(db, "events");
         var eventObject = {
@@ -668,7 +678,7 @@
         await updateDoc(eventDocRef, { uid: eventsSnapshot.id });
         console.log("event is added with ID: ", eventsSnapshot.id);
 
-        const docRef = doc(db, "reunions", addToReunion);
+        const docRef = doc(db, "reunions", reunionMatch);
         await updateDoc(docRef, {
           eventsIds: arrayUnion(eventsSnapshot.id),
         });
