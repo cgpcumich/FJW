@@ -24,7 +24,7 @@
   </head>
   <body class="grey lighten-3">
     <!-- NAV -->
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <!-- <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script> -->
     <!-- <script>window.OneSignal = window.OneSignal || [];</script> -->
     <nav class="z-depth-0 grey lighten-4">
       <div class="nav-wrapper container">
@@ -210,17 +210,17 @@
     <!-- ACCOUNT MODAL -->
     <div id="modal-account" class="modal">
       <div class="modal-content center-align">
-        <h4>Account Details</h4>
+        <h4 style = "font-weight: bold;">Account Details</h4>
         <br />
-        <h5>First Name:</h5>
+        <h5 style = "font-weight: bold;">First Name:</h5>
         <h5 id="userFirst"></h5>
-        <h5>Last Name:</h5>
+        <h5 style = "font-weight: bold;">Last Name:</h5>
         <h5 id="userLast"></h5>
-        <h5>Phone Number:</h5>
+        <h5 style = "font-weight: bold;">Phone Number:</h5>
         <h5 id="userPhone"></h5>
-        <h5>Email:</h5>
+        <h5 style = "font-weight: bold;">Email:</h5>
         <h5 id="userEmail"></h5>
-        <h5>User ID:</h5>
+        <h5 style = "font-weight: bold;">User ID:</h5>
         <h5 id="userUID"></h5>
         <div class="account-details"></div>
       </div>
@@ -576,7 +576,7 @@
             //The reunion I am adding: MGkeAmO72v89Vgu3XVRo
             body: JSON.stringify({
               app_id: "03137177-7099-4ca3-b1bf-a0cb011e5ce0",
-              include_external_user_ids: ["TIelzt5joiMZGQqe8T8AcATVQNZ2"],
+              include_external_user_ids: [userId],
               included_segments: ["Subscribed Users"],
               contents: {
                 en:
