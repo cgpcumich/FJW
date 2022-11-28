@@ -29,7 +29,12 @@
             >
           </li>
           <li class="logged-in">
-            <a href="#" class="grey-text" id="logout">Logout</a>
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              id="viewMyReunionsButton"
+              >View my Reunions</a
+            >
           </li>
           <li class="logged-in">
             <a
@@ -39,13 +44,24 @@
               >Create Reunion</a
             >
           </li>
+
           <li class="logged-in">
             <a
               href="#"
               class="grey-text modal-trigger"
-              id="viewMyReunionsButton"
-              >View my Reunions</a
+              data-target="modal-add-member"
+              >Add a Member</a
             >
+          </li>
+          <li class="logged-in">
+            <a
+              href="#"
+              class="grey-text modal-trigger"
+              data-target="modal-add-event"
+              >Add an Event</a
+            >
+          </li>
+
           </li>
           <li class="logged-out">
             <a
@@ -64,13 +80,7 @@
             >
           </li>
           <li class="logged-in">
-            <a
-              href="#"
-              class="grey-text modal-trigger"
-              data-target="modal-add-member"
-              >Add a member to the reunion</a
-            >
-          </li>
+            <a href="#" class="grey-text" id="logout">Logout</a>
         </ul>
       </div>
     </nav>
@@ -82,14 +92,6 @@
         <br />
         <form id="signup-form">
           <div class="input-field">
-            <input type="fName" id="signup-fName" required />
-            <label for="signup-Fname">First Name</label>
-          </div>
-          <div class="input-field">
-            <input type="lName" id="signup-lName" required />
-            <label for="signup-lname">Last Name</label>
-          </div>
-          <div class="input-field">
             <input type="email" id="signup-email" required />
             <label for="signup-email">Email Address</label>
           </div>
@@ -98,7 +100,15 @@
             <label for="signup-password">Choose Password</label>
           </div>
           <div class="input-field">
-            <input type="phoneNumber" id="signup-phoneNumber" required />
+            <input type="email" id="signup-fName" required />
+            <label for="signup-fName">First Name</label>
+          </div>
+          <div class="input-field">
+            <input type="email" id="signup-lName" required />
+            <label for="signup-lName">Last Name</label>
+          </div>
+          <div class="input-field">
+            <input type="email" id="signup-phoneNumber" required />
             <label for="signup-phoneNumber">Phone Number</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Sign Up</button>
@@ -123,7 +133,7 @@
     <!-- ADD A MEMBER MODAL -->
     <div id="modal-add-member" class="modal">
       <div class="modal-content">
-        <h4>View my reunions</h4>
+        <h4>Add a Member</h4>
         <br />
         <form id="addMemberForm">
           <div class="input-field">
@@ -133,6 +143,29 @@
           <div class="input-field">
             <input type="text" id="reunion-id" required />
             <label for="reunion-id">Reunion's id to add to</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Add</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ADD AN EVENT MODAL -->
+    <div id="modal-add-event" class="modal">
+      <div class="modal-content">
+        <h4>Add an Event</h4>
+        <br />
+        <form id="addEventForm">
+          <div class="input-field">
+            <input type="text" id="event-id" required />
+            <label for="event-id">Name of event</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="description-id" required />
+            <label for="description-id">Description of event</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="reunionName-id" required />
+            <label for="reunionName-id">Name of Reunion</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Add</button>
         </form>
@@ -163,6 +196,8 @@
       <div class="modal-content center-align">
         <h4>Account Details</h4>
         <br />
+        <h5>Email:</h5>
+        <h5 id="signup-email"></h5>
         <h5>User ID:</h5>
         <h5 id="userUID"></h5>
         <div class="account-details"></div>
@@ -179,10 +214,6 @@
             <input type="text" id="createReunionTitle" required />
             <label for="title">Reunion Name</label>
           </div>
-          <div class="input-field">
-            <input type="text" id="mainUser" required />
-            <label for="title">Main User ID</label>
-          </div>
           <button class="btn blue darken-2 z-depth-0">Create</button>
         </form>
       </div>
@@ -192,6 +223,8 @@
     <div class="container" style="margin-top: 40px" id="reunionContainer">
       <ul id="reunionsList"></ul>
     </div>
+
+    <div id="list"></div>
 
     <!-- FIREBASE -->
     <script type="module">
@@ -287,6 +320,12 @@
           //   .catchError((error) => {});
           console.log("user is added with ID: ", userID);
           document.getElementById("userUID").innerHTML = userID;
+          document.getElementById("userFirst").innerHTML = firstName;
+          document.getElementById("userLast").innerHTML = lastName;
+          document.getElementById("userEmail").innerHTML = email;
+          document.getElementById("userPhone").innerHTML = phoneNumber;
+
+
         });
       });
 
@@ -303,6 +342,7 @@
             console.log(userCredential);
             document.getElementById("userUID").innerHTML =
               userCredential.user.uid;
+              
             // Signed in
             const user = userCredential.user;
             console.log("log in successful");
@@ -313,6 +353,7 @@
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            alert(errorMessage);
           });
       });
 
@@ -332,6 +373,7 @@
       );
       viewMyReunionsButton.addEventListener("click", async (e) => {
         e.preventDefault();
+      
 
         //So since for now the way we store the user id is by literally putting it into the code itself, I will just pull that
         var userId = document.getElementById("userUID").innerText;
@@ -429,7 +471,7 @@
           rCounter++
         ) {
           var reunion = bigUserObject.reunions[rCounter];
-          var reunionItem = '<div style="border-style: solid;">';
+          var reunionItem = '<div id= "list"; style="border-style: solid;">';
           reunionItem += '<li id="' + reunion.uid + ' ">';
           reunionItem += "<h3>" + reunion.name + "</h3>";
           reunionItem += "<div>";
@@ -442,6 +484,7 @@
             var eventItem = '<li id="' + event.uid + '">';
             eventItem += `<h5>${event.name}</h5>`;
             eventItem += `<p>${event.description}</p>`;
+            eventItem += `<p>${event.time}</p>`;
 
             eventItem += "</li>";
             reunionItem += eventItem;
@@ -451,7 +494,7 @@
           reunionItem += "</div>";
           html += reunionItem;
         }
-
+        console.log(html);
         return html;
       }
 
@@ -532,8 +575,12 @@
         e.preventDefault();
 
         const title = reunionForm["createReunionTitle"].value;
-        const mainUser = reunionForm["mainUser"].value;
+        var mainUser = document.getElementById("userUID").innerText;
         console.log("the reunion title: ", title);
+
+        const modal = document.querySelector("#modal-create");
+        M.Modal.getInstance(modal).close();
+        eventForm.reset();
 
         const reunionsCollection = collection(db, "reunions");
         var reunionObject = {
@@ -557,6 +604,45 @@
           reunionsIds: arrayUnion(reunionsSnapshot.id),
         });
       });
+
+      // create event
+      const eventForm = document.querySelector("#AddEventForm");
+      eventForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const title = eventForm["event-id"].value;
+        const desc = eventForm["description-id"].value;
+        const addToReunion = eventForm["reunionName-id"].value;
+        console.log(title, desc, addToReunion);
+
+        const modal = document.querySelector("#modal-add-event");
+        M.Modal.getInstance(modal).close();
+        eventForm.reset();
+
+        const eventsCollection = collection(db, "events");
+        var eventObject = {
+          address: "",
+          description: desc,
+          link: "",
+          name: title,
+          time: "",
+        };
+
+        const eventsSnapshot = await addDoc(
+          eventsCollection,
+          eventObject
+        );
+        const eventDocRef = doc(db, "events", eventsSnapshot.id);
+        await updateDoc(eventDocRef, { uid: eventsSnapshot.id });
+        console.log("event is added with ID: ", eventsSnapshot.id);
+
+        const docRef = doc(db, "reunions", addToReunion);
+        await updateDoc(docRef, {
+          eventsIds: arrayUnion(eventsSnapshot.id),
+        });
+
+      });
+      
     </script>
 
     <!-- Compiled and minified JavaScript -->
