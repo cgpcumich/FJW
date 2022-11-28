@@ -4,7 +4,6 @@
 
   Make it so we dont have to use manual IDs
   Finish 'Account'
-  Clear 'View My Reunions'
   Make Facebook Login
   Make Google Login
   Edit/Remove Functions
@@ -383,6 +382,7 @@
       const logout = document.querySelector("#logout");
       logout.addEventListener("click", (e) => {
         e.preventDefault();
+        document.getElementById("reunionsList").innerHTML = "";
         const out = getAuth();
         signOut(out)
           .then(() => {})
@@ -517,6 +517,7 @@
           html += reunionItem;
         }
         console.log(html);
+        document.getElementById("reunionsList").innerHTML = "";
         return html;
       }
 
