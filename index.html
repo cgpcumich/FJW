@@ -29,7 +29,7 @@
     <nav class="z-depth-0 grey lighten-4">
       <div class="nav-wrapper container">
         <a href="#" class="brand-logo">
-          <img src="img/logo.svg" style="width: 180px; margin-top: -15px" />
+          <img src="img/FAMJAMnewlogo.png" style="height: 55px; margin-top: 5px" />
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li class="logged-in">
@@ -271,20 +271,14 @@
         onSnapshot,
       } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
 
+      import { ONESIGNAL_API_KEY, firebaseConfigHidden } from './keys.js';
+
       // import {OneSignal} from "https://cdn.onesignal.com/sdks/OneSignalSDK.js";
       // Import the functions you need from the SDKs you need
       // https://firebase.google.com/docs/web/setup#available-libraries
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDFLuyUBFYP62hILujyTSOh8rBJEL9u01w",
-        authDomain: "famjams.firebaseapp.com",
-        databaseURL: "https://famjams-default-rtdb.firebaseio.com",
-        projectId: "famjams",
-        storageBucket: "famjams.appspot.com",
-        messagingSenderId: "291627926948",
-        appId: "1:291627926948:web:0da26295753a5d927ced31",
-        measurementId: "G-CZYJV68CLG",
-      };
+      const firebaseConfig = firebaseConfigHidden;
+      
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
       const auth = getAuth(app);
@@ -526,6 +520,7 @@
         document.getElementById("reunionsList").innerHTML = "";
         return html;
       }
+      import { ONESIGNAL_API_KEY } from './keys.js';
 
       const addMemberForm = document.querySelector("#addMemberForm");
       addMemberForm.addEventListener("submit", async (e) => {
@@ -563,12 +558,14 @@
             reunionsIds: arrayUnion(reunionId),
           });
 
+          
+
           //Send a notification to the user that was added (userId is the ref point)
           const requestOptions = {
             method: "POST",
             headers: {
               authorization:
-                "Basic YjY4YzNkODgtZjRkZC00MDhkLWFjMDAtMzZjMzViZjM2OWEx",
+                "Basic " + ONESIGNAL_API_KEY,
               // included_segments: ["Subscribed Users"],
               "content-type": "application/json",
             },
