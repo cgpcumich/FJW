@@ -1,15 +1,3 @@
-<!-- 
-
-  TO DO:
-
-  Make it so we dont have to use manual IDs
-  Finish 'Account'
-  Make Facebook Login
-  Make Google Login
-  Edit/Remove Functions
-
--->
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -120,7 +108,7 @@
             <label for="signup-lName">Last Name</label>
           </div>
           <div class="input-field">
-            <input type="text" id="signup-phoneNumber" required />
+            <input type="tel" id="signup-phoneNumber" required />
             <label for="signup-phoneNumber">Phone Number</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Sign Up</button>
@@ -176,8 +164,8 @@
             <label for="description-id">Description of event</label>
           </div>
           <div class="input-field">
-            <input type="text" id="time-id" required />
-            <label for="time-id">Date and Time of Event</label>
+            <p style="color:#949494">Start Date</p>
+            <input type="datetime-local" id="time-id" required />
           </div>
           <div class="input-field">
             <input type="text" id="reunionName-id" required />
@@ -235,6 +223,14 @@
           <div class="input-field">
             <input type="text" id="createReunionTitle" required />
             <label for="title">Reunion Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="reunionDesc-id" required />
+            <label for="reunionDesc-id">Description of Reunion</label>
+          </div>
+          <div class="input-field">
+            <input maxlength="140" type="text" id="shortDesc-id" required />
+            <label for="shortDesc-id">Short Description</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Create</button>
         </form>
@@ -459,6 +455,12 @@
                   bigUserObject.reunions[rCounter].events = tempArray;
                 }
               }
+              // sorts events array by date
+              const sortedActivities = bigUserObject.reunions[rCounter].events.sort((a, b) => a.time - b.time)
+              console.log(sortedActivities);
+              bigUserObject.reunions[rCounter].events = sortedActivities
+
+
             } else {
               console.log(`No reunion with ID ${reunionId} was found`);
             }
@@ -506,7 +508,7 @@
             var eventItem = '<li id="' + event.uid + '">';
             eventItem += `<h5>${event.name}</h5>`;
             eventItem += `<p>${event.description}</p>`;
-            eventItem += `<p>${event.time}</p>`;
+            eventItem += `<p>${(new Date(event.time.seconds*1000))}</p>`; // converts epoch time
 
             eventItem += "</li>";
             reunionItem += eventItem;
@@ -599,6 +601,8 @@
         e.preventDefault();
 
         const title = reunionForm["createReunionTitle"].value;
+        const shortDesc = eventForm["shortDesc-id"].value;
+        const reunionDesc = eventForm["reunionDesc-id"].value;
         var mainUser = document.getElementById("userUID").innerText;
         console.log("the reunion title: ", title);
 
@@ -610,8 +614,10 @@
         var reunionObject = {
           name: title,
           imageURL: "",
-          memberIds: [mainUser], //TODO: Add the creator (current user's ID as the first member)
+          memberIds: [mainUser],
           eventsIds: [],
+          description: reunionDesc,
+          shortDescription: shortDesc,
         };
 
         const reunionsSnapshot = await addDoc(
