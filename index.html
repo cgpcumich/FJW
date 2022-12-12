@@ -1006,12 +1006,11 @@
         const eventDocRef = doc(db, "events", addToEventID);
         const eventDocSnap = await getDoc(eventDocRef);
         const eventData = eventDocSnap.data();
-        const eventArray = Object.entries(eventData.additionalData);
-        const arrayValue = [addKey, addValue];
-        eventArray.push(arrayValue);
-        console.log(eventArray);
+        const currentList = eventData.additionalData;
+        currentList[addKey] = addValue;
+        console.log(currentList);
         await updateDoc(eventDocRef, {
-          additionalData: eventArray,
+          additionalData: currentList,
         });
       });
     </script>
