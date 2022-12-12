@@ -7,7 +7,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-
     <title>FamJams</title>
   </head>
   <body class="grey lighten-3">
@@ -43,25 +42,6 @@
               data-target="modal-create"
               >Create Reunion</a
             >
-          </li>
-
-          <li class="logged-in">
-            <a
-              href="#"
-              class="grey-text modal-trigger"
-              data-target="modal-add-member"
-              >Add a Member</a
-            >
-          </li>
-          <li class="logged-in">
-            <a
-              href="#"
-              class="grey-text modal-trigger"
-              data-target="modal-add-event"
-              >Add an Event</a
-            >
-          </li>
-
           </li>
           <li class="logged-out">
             <a
@@ -116,20 +96,6 @@
       </div>
     </div>
 
-    <!-- VIEW MY REUNIONS MODAL -->
-    <!-- <div id="modal-view-my-reunions" class="modal">
-    <div class="modal-content">
-      <h4>View my reunions</h4><br />
-      <div id="viewMyReunionsButton">
-        <div class="input-field">
-          <input type="text" id="user-id" required />
-          <label for="user-id">user's id</label>
-        </div>
-        <button class="btn blue darken-2 z-depth-0">View</button>
-      </div>
-    </div>
-  </div> -->
-
     <!-- ADD A MEMBER MODAL -->
     <div id="modal-add-member" class="modal">
       <div class="modal-content">
@@ -138,11 +104,7 @@
         <form id="addMemberForm">
           <div class="input-field">
             <input type="text" id="user-id" required />
-            <label for="user-id">user to add (enter their id for now)</label>
-          </div>
-          <div class="input-field">
-            <input type="text" id="reunion-id" required />
-            <label for="reunion-id">Reunion's id to add to</label>
+            <label for="user-id">User's Email to be Add</label>
           </div>
           <button class="btn blue darken-2 z-depth-0">Add</button>
         </form>
@@ -168,9 +130,14 @@
             <input type="datetime-local" id="time-id" required />
           </div>
           <div class="input-field">
-            <input type="text" id="reunionName-id" required />
-            <label for="reunionName-id">Name of Reunion</label>
+            <input type="text" id="link-id" />
+            <label for="link-id">Link to Event Website (optional)</label>
           </div>
+          <div class="input-field">
+            <input type="text" id="address-id" />
+            <label for="address-id">Address of Event (optional)</label>
+          </div>
+          <meta name = "addRID" content = "">
           <button class="btn blue darken-2 z-depth-0">Add</button>
         </form>
       </div>
@@ -237,9 +204,117 @@
       </div>
     </div>
 
-    <!-- REUNION LIST -->
+    <!-- EDIT REUNION MODAL -->
+    <div id="modal-edit" class="modal">
+      <div class="modal-content">
+        <h4>Edit Reunion</h4>
+        <br />
+        <form id="edit-reunion">
+          <div class="input-field">
+            <input type="text" id="edit-createReunionTitle" />
+            <label for="edit-title">Reunion Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="edit-reunionDesc-id" />
+            <label for="edit-reunionDesc-id">Description of Reunion</label>
+          </div>
+          <div class="input-field">
+            <input maxlength="140" type="text" id="edit-shortDesc-id" />
+            <label for="edit-shortDesc-id">Short Description</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Edit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- EDIT EVENT MODAL -->
+    <div id="modal-edit-event" class="modal">
+      <div class="modal-content">
+        <h4>Edit Event</h4>
+        <br />
+        <form id="edit-event">
+          <div class="input-field">
+            <input type="text" id="edit-createEventTitle" />
+            <label for="edit-title">Event Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="edit-description-id" />
+            <label for="description-id">Description of event</label>
+          </div>
+          <div class="input-field">
+            <p style="color:#949494">Start Date</p>
+            <input type="datetime-local" id="edit-time-id" />
+          </div>
+          <div class="input-field">
+            <input type="text" id="edit-link-id" />
+            <label for="link-id">Link to Event Website</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="edit-address-id" />
+            <label for="address-id">Address of Event</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Edit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- REUNION LIST MODAL -->
     <div class="container" style="margin-top: 40px" id="reunionContainer">
       <ul id="reunionsList"></ul>
+    </div>
+
+    <!--DELETE REUNION MODAL-->
+    <div id="modal-delete" class="modal">
+      <div class="modal-content">
+        <h4>Delete Reunion</h4>
+        <p>Are you sure you want to delete this reunion?</p>
+        <p>Once this is done this can not be undone.</p>
+        <p>Type the name of the reunion to confirm deletion.</p>
+        <br />
+        <form id="delete-reunion">
+          <div class="input-field">
+            <input type="text" id="delete-name" />
+            <label for="delete-name">Name of Reunion</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Confirm Delete</button>
+        </form>
+      </div>
+    </div>
+
+    <!--DELETE EVENT MODAL-->
+    <div id="modal-delete-event" class="modal">
+      <div class="modal-content">
+        <h4>Delete Event</h4>
+        <p>Are you sure you want to delete this event?</p>
+        <p>Once this is done this can not be undone.</p>
+        <p>Type the name of the event to confirm deletion.</p>
+        <br />
+        <form id="delete-event">
+          <div class="input-field">
+            <input type="text" id="delete-event-name" />
+            <label for="delete-event-name">Name of Event</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Confirm Delete</button>
+        </form>
+      </div>
+    </div>
+
+    <!--ADDITIONAL INFO MODAL-->
+    <div id="modal-add-additional" class="modal">
+      <div class="modal-content">
+        <h4>Add Additional Info</h4>
+        <form id="add-additional">
+          <div class="input-field">
+            <input type="text" id="add-key" />
+            <label for="add-key">Infromation Being Added (example: cost)</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="add-value" />
+            <label for="add-value">Description of Infromation (example: $20)</label>
+          </div>
+          <button class="btn blue darken-2 z-depth-0">Add</button>
+        </form>
+      </div>
     </div>
 
     <!-- FIREBASE -->
@@ -265,6 +340,11 @@
         arrayUnion,
         arrayRemove,
         onSnapshot,
+        serverTimestamp,
+        query, 
+        where,
+        deleteDoc,
+        deleteField
       } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore.js";
 
       import { ONESIGNAL_API_KEY, firebaseConfigHidden, ONESIGNAL_APP_ID } from './keys.js';
@@ -274,13 +354,12 @@
       // https://firebase.google.com/docs/web/setup#available-libraries
 
       const firebaseConfig = firebaseConfigHidden;
-      
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
       const auth = getAuth(app);
       const db = getFirestore(app);
 
-      // Auth State
+      // auth state
       const authState = getAuth();
       onAuthStateChanged(authState, (user) => {
         if (user) {
@@ -330,13 +409,12 @@
           //   .then((results) => {})
           //   .catchError((error) => {});
           console.log("user is added with ID: ", userID);
+          //add info to Account Modal
           document.getElementById("userUID").innerHTML = userID;
           document.getElementById("userFirst").innerHTML = fName;
           document.getElementById("userLast").innerHTML = lName;
           document.getElementById("userEmail").innerHTML = email;
           document.getElementById("userPhone").innerHTML = phoneNumber;
-
-
         });
       });
 
@@ -348,6 +426,7 @@
         const email = loginForm["login-email"].value;
         const password = loginForm["login-password"].value;
         const auth = getAuth();
+        //signing in and add info to Account Modal
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             console.log(userCredential);
@@ -363,10 +442,12 @@
             // Signed in
             const user = userCredential.user;
             console.log("log in successful");
+            // close and clear form
             const modal = document.querySelector("#modal-login");
             M.Modal.getInstance(modal).close();
             loginForm.reset();
           })
+          // if error
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -386,36 +467,28 @@
       });
 
       // view reunions
-      const viewMyReunionsButton = document.querySelector(
-        "#viewMyReunionsButton"
-      );
+      var addToReunion = "";
+      const viewMyReunionsButton = document.querySelector("#viewMyReunionsButton");
       viewMyReunionsButton.addEventListener("click", async (e) => {
         e.preventDefault();
-      
-
-        //So since for now the way we store the user id is by literally putting it into the code itself, I will just pull that
+        // pull userUID from Account Modal
         var userId = document.getElementById("userUID").innerText;
-
-        // userId = 'TIelzt5joiMZGQqe8T8AcATVQNZ2'; //This user has a couple of reunions, so its nice to use for testing purposes.
-
+        // checks for valid id
         if (!userId || userId.length == 0) {
           alert(
             "user ID is empty. Try reloading the page and logging back in."
           );
           return;
         }
-
         console.log("userId is: ", userId);
         var bigUserObject = {};
         //Grab the user from db:
         const userDocRef = await doc(db, "users", userId);
         const userDocSnap = await getDoc(userDocRef);
-
         //This is catching if no such user is in the db:
         if (userDocSnap.data()) {
           bigUserObject = userDocSnap.data();
           bigUserObject.reunions = [];
-
           //Now we have a place to go through reunions and add each one to the list
           //Go through reunionIds and pull each reunion one-by-one
           for (
@@ -427,17 +500,14 @@
             //Pull the reunion by its ID
             const reunionDocRef = await doc(db, "reunions", reunionId);
             const reunionDocSnap = await getDoc(reunionDocRef);
-
             //If the reunion is found, add it to the 'reunions' array in the big object. Otherwise, catch an error
             if (reunionDocSnap.data()) {
               var tempArray = bigUserObject.reunions;
               tempArray.push(reunionDocSnap.data());
               bigUserObject.reunions = tempArray;
-
               //At this point we have a reunion added
               //Now we create a field where we put the events
               bigUserObject.reunions[rCounter].events = [];
-
               //So now we go though eventIds
               for (
                 var eCounter = 0;
@@ -448,7 +518,6 @@
                   bigUserObject.reunions[rCounter].eventsIds[eCounter];
                 const eventDocRef = await doc(db, "events", eventId);
                 const eventDocSnap = await getDoc(eventDocRef);
-
                 if (eventDocSnap.data()) {
                   tempArray = bigUserObject.reunions[rCounter].events;
                   tempArray.push(eventDocSnap.data());
@@ -459,8 +528,6 @@
               const sortedActivities = bigUserObject.reunions[rCounter].events.sort((a, b) => a.time - b.time)
               console.log(sortedActivities);
               bigUserObject.reunions[rCounter].events = sortedActivities
-
-
             } else {
               console.log(`No reunion with ID ${reunionId} was found`);
             }
@@ -468,9 +535,7 @@
         } else {
           console.log("no such user found!");
         }
-
         console.log("final bigUserObject", bigUserObject);
-
         document
           .querySelector("#reunionsList")
           .insertAdjacentHTML("afterbegin", loadReunions(bigUserObject));
@@ -478,17 +543,17 @@
       //This is the function that actually loads the reunions into a list
       //The input is the bigUserObject that contains all the reunions and all the events for that user
       //Now we just go through the object and create a list out of it.
+      function getRID(rID){
+        document.querySelector('meta[name="addRID"]').setAttribute("content", rID);
+      }
       function loadReunions(bigUserObject) {
         var html = "";
-
         var reunionsList = bigUserObject.reunions;
-
         if (bigUserObject.reunions.length == 0) {
           //if there are no reunions to show, just show a message "no reunions to show"
           html = "<h2>No reunions to show</h2>";
           return html;
         }
-
         for (
           var rCounter = 0;
           rCounter < bigUserObject.reunions.length;
@@ -497,8 +562,54 @@
           var reunion = bigUserObject.reunions[rCounter];
           var reunionItem = '<div id= "list"; style="border-style: solid;">';
           reunionItem += '<li id="' + reunion.uid + ' ">';
-          reunionItem += "<h3>" + reunion.name + "</h3>";
+          reunionItem += "<h3>" + reunion.name;
+          // create function buttons
+          var pickedID = ""
+          reunionItem +=  `<h5>
+                          <button type="button" 
+                                  id="` + reunion.uid  + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  class="modal-trigger" 
+                                  style="float: right;"
+                                  data-target="modal-delete"
+                                  >Delete Reunion</button>
+                          <button type="button" 
+                                  id="` + reunion.uid  + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  class="modal-trigger" 
+                                  style="float: right;"
+                                  data-target="modal-edit"
+                                  >Edit Reunion</button>
+                          <button type="button" 
+                                  id="` + reunion.uid  + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  style="float: right;" 
+                                  class="modal-trigger" 
+                                  data-target="modal-add-event"
+                                  >Add An Event</button>
+                          <button type="button" 
+                                  id="` + reunion.uid + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  style="float: right;" 
+                                  class="modal-trigger" 
+                                  data-target="modal-add-member"
+                                  >Add A Member</button>
+                          </h5>
+                          </h3>
+          `;
+          console.log(document.getElementsByTagName('meta')["addRID"].content)
           reunionItem += "<div>";
+          reunionItem += `<p>${reunion.description}</p>`;
+          reunionItem += `<p>${reunion.shortDescription}</p>`;
+          // adding info to screen
+          if (reunion.memberIds.length == 1){
+            reunionItem += `<p>There is ${reunion.memberIds.length} person coming to this reunion.</p`
+          }
+          else{
+            reunionItem += `<p>There are ${reunion.memberIds.length} people coming to this reunion.</p`
+          }
+          reunionItem += "<div>";
+          // events in the reunions are now being called
           for (
             var eCounter = 0;
             eCounter < bigUserObject.reunions[rCounter].events.length;
@@ -506,10 +617,58 @@
           ) {
             var event = bigUserObject.reunions[rCounter].events[eCounter];
             var eventItem = '<li id="' + event.uid + '">';
-            eventItem += `<h5>${event.name}</h5>`;
+            eventItem += `<h5>${event.name}`;
+            // make buttons for events
+            eventItem +=  `<button type="button" 
+                                  id="` + event.uid + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  style= "float: right;"
+                                  class="modal-trigger" 
+                                  data-target="modal-delete-event"
+                                  >Delete Event</button>
+                          <button type="button" 
+                          id="` + event.uid + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  style= "float: right;"
+                                  class="modal-trigger" 
+                                  data-target="modal-edit-event"
+                                  >Edit Event</button>
+                          <button type="button" 
+                          id="` + event.uid + `" 
+                                  onClick="localStorage.setItem('key', this.id)"
+                                  style= "float: right;"
+                                  class="modal-trigger" 
+                                  data-target="modal-add-additional"
+                                  >Add Additional Info</button>
+                          </h5>
+          `;
+          // add info to screen
             eventItem += `<p>${event.description}</p>`;
             eventItem += `<p>${(new Date(event.time.seconds*1000))}</p>`; // converts epoch time
-
+            if (event.address.length > 0){
+              eventItem += `<p>${event.address}</p>`;
+            }
+            if (event.link.length > 0){
+              eventItem += `<p><a href="` + event.link + `">` + event.link +`</a></p>`;
+            }
+            // to initalize additionalData type Map, _DONTUSE is added, this hides it from printing
+            const dataEntries = Object.entries(event.additionalData);
+            if (dataEntries.length > 0){
+               for (var dCounter = 0; dCounter < dataEntries.length; dCounter++){
+                if (dataEntries[dCounter][0] == "_DONTUSE"){ 
+                }
+                else{
+                 eventItem += `<p>` + (dataEntries[dCounter][0]) + `: ` + (dataEntries[dCounter][1]) + `</p>`;
+                }
+              }
+            }
+            // more info to screen
+            if (event.attending.length == 1){
+              eventItem += `<p>There is ${event.attending.length} person coming to this event.</p`
+            }
+            else{
+              eventItem += `<p>There are ${event.attending.length} people coming to this event.</p`
+            }
             eventItem += "</li>";
             reunionItem += eventItem;
           }
@@ -518,16 +677,27 @@
           reunionItem += "</div>";
           html += reunionItem;
         }
+        // prints HTML
         console.log(html);
         document.getElementById("reunionsList").innerHTML = "";
         return html;
       }
+
+      // Add Member
       const addMemberForm = document.querySelector("#addMemberForm");
       addMemberForm.addEventListener("submit", async (e) => {
         //Get the info from the form:
 
-        const userId = addMemberForm["user-id"].value;
-        const reunionId = addMemberForm["reunion-id"].value;
+        const userEmail = addMemberForm["user-id"].value;
+        const reunionId = localStorage.getItem('key');
+
+        const membersRef = collection(db, "users", reunionsSnapshot.id);
+        const mq = query(membersRef, where("email", "==", userEmail));
+
+        console.log(mq)
+
+
+
 
         //When adding a member, 2 things get updated
         //The member's reunionids and the reunion's members list
@@ -590,7 +760,8 @@
           ).then((response) => {
             console.log(response.json());
           });
-        } else {
+        } 
+        else {
           console.log("Reunion doesn't exist!");
         }
       });
@@ -599,17 +770,17 @@
       const reunionForm = document.querySelector("#create-reunion");
       reunionForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+        // gather information
         const title = reunionForm["createReunionTitle"].value;
-        const shortDesc = eventForm["shortDesc-id"].value;
-        const reunionDesc = eventForm["reunionDesc-id"].value;
+        const shortDesc = reunionForm["shortDesc-id"].value;
+        const reunionDesc = reunionForm["reunionDesc-id"].value;
         var mainUser = document.getElementById("userUID").innerText;
         console.log("the reunion title: ", title);
-
+        // close and clear fourm
         const modal = document.querySelector("#modal-create");
         M.Modal.getInstance(modal).close();
-        eventForm.reset();
-
+        reunionForm.reset();
+        // create in db
         const reunionsCollection = collection(db, "reunions");
         var reunionObject = {
           name: title,
@@ -619,7 +790,6 @@
           description: reunionDesc,
           shortDescription: shortDesc,
         };
-
         const reunionsSnapshot = await addDoc(
           reunionsCollection,
           reunionObject
@@ -635,42 +805,177 @@
         });
       });
 
+      // edit reunion
+      const editForm = document.querySelector("#edit-reunion");
+      editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // gathers info
+        const title = editForm["edit-createReunionTitle"].value;
+        const shortDesc = editForm["edit-shortDesc-id"].value;
+        const reunionDesc = editForm["edit-reunionDesc-id"].value;
+        const reunionID = localStorage.getItem('key');
+        console.log(title, shortDesc, reunionDesc, reunionID);
+        // close and clear
+        const modal = document.querySelector("#modal-edit");
+        M.Modal.getInstance(modal).close();
+        editForm.reset();
+        // update db
+        const reunionsCollection = collection(db, "reunions");
+        const reunionDocRef = doc(db, "reunions", reunionID);
+        if (title.length > 0) {
+          await updateDoc(reunionDocRef, { name: title });
+        }
+        if (shortDesc.length > 0) {
+          await updateDoc(reunionDocRef, { shortDescription: shortDesc });
+        }
+        if (reunionDesc.length > 0) {
+          await updateDoc(reunionDocRef, { description: reunionDesc });
+        }
+      });
+
+      // Delete Reunion
+      const deleteForm = document.querySelector("#delete-reunion");
+      deleteForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // gathers data
+        const verification = deleteForm["delete-name"].value; 
+        const deleteReunionID = localStorage.getItem('key');
+        console.log(verification, deleteReunionID);
+        // close and clear
+        const modal = document.querySelector("#modal-delete");
+        M.Modal.getInstance(modal).close();
+        editForm.reset();
+        // delete from reunions
+        const checkName = doc(db, "reunions", deleteReunionID);
+        const checkNameSnap = await getDoc(checkName);
+        const checkNameData = checkNameSnap.data();
+        const usersArray = checkNameData.memberIds;
+        if (verification == checkNameData.name) {
+          await deleteDoc(doc(db, "reunions", deleteReunionID));
+          // delete from users
+          console.log(usersArray);
+          for(const user of usersArray){
+            const userInfoRef = doc(db, "users", user);
+            const userInfoSnap = await getDoc(userInfoRef);
+            const userInfoData = userInfoSnap.data();
+            const reunionArray = userInfoData.reunionsIds;
+            var newRArray = new Array();
+            for (const reunionChecker of reunionArray){
+              if (reunionChecker != deleteReunionID){
+                newRArray.push(reunionChecker);
+              }
+            }
+            await updateDoc(userInfoRef, {
+              reunionsIds: newRArray
+            });
+          }
+        }
+        else {
+          alert("Verification Failed! Delete Aborted!");
+        }
+      });
+
+      // Delete event
+      const deleteEventForm = document.querySelector("#delete-event");
+      deleteEventForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // gathers data
+        const verification = deleteEventForm["delete-event-name"].value; 
+        const deleteEventID = localStorage.getItem('key');
+        console.log(verification, deleteEventID);
+        // close and clear
+        const modal = document.querySelector("#modal-delete-event");
+        M.Modal.getInstance(modal).close();
+        editForm.reset();
+        // delete from events
+        const checkName = doc(db, "events", deleteEventID);
+        const checkNameSnap = await getDoc(checkName);
+        const checkNameData = checkNameSnap.data();
+        if (verification == checkNameData.name) {
+          await deleteDoc(doc(db, "events", deleteEventID));
+        }
+        else {
+          alert("Verification Failed! Delete Aborted!");
+        }
+      });
+
+      // edit event
+      const editEventForm = document.querySelector("#edit-event");
+      editEventForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // gathers info
+        const title = editEventForm["edit-createEventTitle"].value;
+        const desc = editEventForm["edit-description-id"].value;
+        const time = new Date(editEventForm["edit-time-id"].value);
+        const link = editEventForm["edit-link-id"].value;
+        const address = editEventForm["edit-address-id"].value;
+        const eventID = localStorage.getItem('key');
+        console.log(eventID);
+        // close and clear
+        const modal = document.querySelector("#modal-edit-event");
+        M.Modal.getInstance(modal).close();
+        editForm.reset();
+        // update db
+        const reunionsCollection = collection(db, "events");
+        const reunionDocRef = doc(db, "events", eventID);
+        if (title.length > 0) {
+          await updateDoc(reunionDocRef, { name: title });
+        }
+        if (desc.length > 0) {
+          await updateDoc(reunionDocRef, { description: desc });
+        }
+        console.log(time.length);
+        if (time.length > 0) {
+          await updateDoc(reunionDocRef, { time: time });
+        }
+        if (link.length > 0) {
+          await updateDoc(reunionDocRef, { link: link });
+        }
+        if (address.length > 0) {
+          await updateDoc(reunionDocRef, { address: address });
+        }
+
+      });
+
       // create event
       var reunionMatch;
+      // open form
       const eventForm = document.querySelector("#AddEventForm");
       eventForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+        // gather input info
         const title = eventForm["event-id"].value;
         const desc = eventForm["description-id"].value;
-        const time = eventForm["time-id"].value;
-        const addToReunion = eventForm["reunionName-id"].value;
+        const time = new Date(eventForm["time-id"].value);
+        const link = eventForm["link-id"].value;
+        const address = eventForm["address-id"].value;
+        const addToReunion = localStorage.getItem('key');
         console.log(title, desc, time, addToReunion);
-
+        // close and clear form
         const modal = document.querySelector("#modal-add-event");
         M.Modal.getInstance(modal).close();
         eventForm.reset();
-
+        // add to database
         const allReunionsSnapshot = await getDocs(collection(db, "reunions"));
         allReunionsSnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-          if (doc.data().name == addToReunion) {
+          console.log(doc.data().uid);
+          console.log(addToReunion);
+          if (doc.data().uid == addToReunion) {
             console.log(doc.id, " => ", doc.data());
             reunionMatch = doc.id;
           }
         });
-
-        console.log(reunionMatch)
-
+        console.log(reunionMatch);
         const eventsCollection = collection(db, "events");
         var eventObject = {
-          address: "",
+          attending: [],
+          additionalData: {"_DONTUSE":""},
+          address: address,
           description: desc,
-          link: "",
+          link: link,
           name: title,
           time: time,
         };
-
         const eventsSnapshot = await addDoc(
           eventsCollection,
           eventObject
@@ -678,14 +983,37 @@
         const eventDocRef = doc(db, "events", eventsSnapshot.id);
         await updateDoc(eventDocRef, { uid: eventsSnapshot.id });
         console.log("event is added with ID: ", eventsSnapshot.id);
-
         const docRef = doc(db, "reunions", reunionMatch);
         await updateDoc(docRef, {
           eventsIds: arrayUnion(eventsSnapshot.id),
         });
-
       });
-      
+
+      // Add Additional
+      const addForm = document.querySelector("#add-additional");
+      addForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // gathers data
+        const addKey = addForm["add-key"].value;
+        const addValue = addForm["add-value"].value; 
+        const addToEventID = localStorage.getItem('key');
+        console.log(addKey, addValue, addToEventID);
+        // close and clear
+        const modal = document.querySelector("#modal-add-additional");
+        M.Modal.getInstance(modal).close();
+        editForm.reset();
+        // add to event
+        const eventDocRef = doc(db, "events", addToEventID);
+        const eventDocSnap = await getDoc(eventDocRef);
+        const eventData = eventDocSnap.data();
+        const eventArray = Object.entries(eventData.additionalData);
+        const arrayValue = [addKey, addValue];
+        eventArray.push(arrayValue);
+        console.log(eventArray);
+        await updateDoc(eventDocRef, {
+          additionalData: eventArray,
+        });
+      });
     </script>
 
     <!-- Compiled and minified JavaScript -->
